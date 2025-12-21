@@ -1,4 +1,17 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Salut depuis français!"
+  "nav_home": "accueil",
+  "nav_projects": "projets",
+  "nav_blog": "blog",
+  "nav_contact": "contact",
+  "hi_text": "salut, je suis",
+  "whoami": "Développeur backend et maldev de {age} ans.",
+  "whatido": "J'aime développer des applications rapides et sécurisées en utilisant ",
+  "resume": "CV",
+
+
+
+  "contact_name": "Nom",
+  "contact_email": "Email",
+  "contact_textarea": "Partage-moi tes idées, proposition de postes ou dis juste bonjour!"
 }
