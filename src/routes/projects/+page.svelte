@@ -8,7 +8,7 @@
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { getLocale } from '$lib/paraglide/runtime';
 
-	const ITEMS_PER_PAGE = 9;
+	const ITEMS_PER_PAGE = 8;
 
 	let { data } = $props();
 

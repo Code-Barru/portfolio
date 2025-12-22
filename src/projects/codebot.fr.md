@@ -2,7 +2,7 @@
 title: Codebot
 featured: false
 date: '2025-02-02'
-description: Bot discord qui track les gains de LP de comptes LeagueOfLegends
+description: Bot discord qui traque les gains de LP de comptes LeagueOfLegends
 tags:
   - discordjs
   - sql

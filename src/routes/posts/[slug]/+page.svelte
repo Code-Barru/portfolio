@@ -3,6 +3,7 @@
 	import { Calendar, Clock, Tag as TagIcon, ArrowLeft } from '@lucide/svelte';
 	import type { Post, PostFrontmatter } from '$lib/types';
 	import { getLocale } from '$lib/paraglide/runtime';
+	import TableOfContents from '$lib/components/TableOfContents.svelte';
 
 	// Get current locale
 	const currentLocale = getLocale();
@@ -82,7 +83,12 @@
 
 {#if post}
 
-	<div class="py-8">
+	<div class="relative py-8">
+		<!-- TOC Sidebar (hidden on mobile) -->
+		<TableOfContents />
+
+		<!-- Main content (centered) -->
+		<div class="mx-auto max-w-3xl">
 		<!-- Back Button -->
 		<a
 			href="/posts"
@@ -191,6 +197,7 @@
 				Back to all posts
 			</a>
 		</div>
+		</div> <!-- Close mx-auto max-w-3xl -->
 	</div>
 {:else}
 	<div class="py-8">

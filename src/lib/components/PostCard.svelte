@@ -53,7 +53,7 @@
 	<div class="p-4">
 		<!-- Date + Temps de lecture (style terminal) -->
 		<div class="mb-3 flex items-center gap-2 font-mono text-xs">
-			<Calendar size={14} class="text-mocha-green" />
+			<Calendar size={14} />
 			<span class="text-mocha-text">{formatDate(post.date)}</span>
 			{#if post.readingTime && post.readingTime > 0}
 				<span class="text-mocha-yellow">|</span>
