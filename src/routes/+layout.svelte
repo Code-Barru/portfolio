@@ -23,8 +23,17 @@
 			return 'bottom';
 		}
 
-		const fromIndex = routeOrder[fromPath] ?? 1;
-		const toIndex = routeOrder[toPath] ?? 1;
+		// Extract base path for dynamic routes (e.g., /posts/slug -> /posts)
+		const getBasePath = (path: string) => {
+			const match = path.match(/^\/(projects|posts|contact)?/);
+			return match ? (match[0] || '/') : '/';
+		};
+
+		const fromBase = getBasePath(fromPath);
+		const toBase = getBasePath(toPath);
+
+		const fromIndex = routeOrder[fromBase] ?? 1;
+		const toIndex = routeOrder[toBase] ?? 1;
 		const distance = toIndex - fromIndex;
 
 		// distance > 0 : vers la gauche

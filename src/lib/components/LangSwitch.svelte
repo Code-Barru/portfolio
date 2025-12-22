@@ -36,9 +36,9 @@
       class="absolute inset-0 flex items-center justify-center"
     >
       {#if currentLocale === 'en'}
-        EN
+        en
       {:else}
-        FR
+        fr
       {/if}
     </div>
   {/key}

@@ -9,9 +9,22 @@
   "whatido": "J'aime développer des applications rapides et sécurisées en utilisant ",
   "resume": "CV",
 
-
-
   "contact_name": "Nom",
   "contact_email": "Email",
-  "contact_textarea": "Partage-moi tes idées, proposition de postes ou dis juste bonjour!"
+  "contact_textarea": "Partage-moi tes idées, proposition de postes ou dis juste bonjour!",
+
+  "projects_name": "mes projets",
+  "projects_search": "Rechercher les projets...",
+  "projects_featured_only": "Vedette seulement",
+  "projects_featured": "Vedette",
+  "projects_filter_by_tags": "Filtrer par étiquettes:",
+  "projects_found": "projet trouvé",
+  "projects_found_plural": "projets trouvés",
+  "projects_read_more": "Lire la suite",
+
+  "blog_name": "mes posts",
+  "blog_search": "Rechercher les posts...",
+  "blog_filter_by_tags": "Filtrer par étiquettes:",
+  "projects_found": "post trouvé ",
+  "projects_found_plural": "posts trouvés"
 }
