@@ -18,7 +18,6 @@
 		});
 	}
 
-	// Map project status to title color
 	const titleColor = $derived(
 		project.status === 'completed'
 			? 'text-mocha-green'

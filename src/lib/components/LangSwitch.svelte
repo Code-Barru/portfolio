@@ -13,7 +13,6 @@
 
     currentLocale = newLocale;
 
-    // Stocker le flag avec timestamp AVANT le changement
     if (browser) {
       sessionStorage.setItem(LANG_CHANGE_FLAG, Date.now().toString());
     }

@@ -5,19 +5,15 @@
 	import { getLocale } from '$lib/paraglide/runtime';
 	import TableOfContents from '$lib/components/TableOfContents.svelte';
 
-	// Get current locale
 	const currentLocale = getLocale();
 
-	// Import all markdown files (both locales)
 	const allModules = import.meta.glob<{ metadata: PostFrontmatter; default: any }>(
 		'/src/posts/*.md',
 		{ eager: true }
 	);
 
-	// Get slug from URL (reactive)
 	let slug = $derived($page.params.slug);
 
-	// Find the matching post and build list for current locale (reactive)
 	let { post, allPosts } = $derived.by(() => {
 		let foundPost: (Post & { content: any }) | null = null;
 		let posts: Post[] = [];
@@ -25,11 +21,9 @@
 		for (const [path, module] of Object.entries(allModules)) {
 			const filename = path.split('/').pop()?.replace(/\.(md|svx)$/, '').replace(/\.(en|fr)$/, '');
 
-			// Extract locale from filename
 			const localeMatch = path.match(/\.(en|fr)\.md$/);
 			const fileLocale = (localeMatch ? localeMatch[1] : 'en') as 'en' | 'fr';
 
-			// Only process files matching current locale
 			if (fileLocale !== currentLocale) {
 				continue;
 			}
@@ -49,13 +43,11 @@
 			}
 		}
 
-		// Sort posts by date
 		posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 		return { post: foundPost, allPosts: posts };
 	});
 
-	// Find prev/next posts (reactive)
 	let currentIndex = $derived(allPosts.findIndex((p) => p.slug === slug));
 	let prevPost = $derived(currentIndex > 0 ? allPosts[currentIndex - 1] : null);
 	let nextPost = $derived(currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null);
@@ -84,12 +76,9 @@
 {#if post}
 
 	<div class="relative py-8">
-		<!-- TOC Sidebar (hidden on mobile) -->
 		<TableOfContents />
 
-		<!-- Main content (centered) -->
 		<div class="mx-auto max-w-3xl">
-		<!-- Back Button -->
 		<a
 			href="/posts"
 			class="mb-6 inline-flex items-center gap-2 text-mocha-blue transition-colors hover:text-mocha-sapphire"
@@ -98,7 +87,6 @@
 			Back to posts
 		</a>
 
-		<!-- Post Header -->
 		<article>
 			<header class="mb-8">
 				<h1 class="mb-4 text-4xl font-bold text-mocha-text md:text-5xl">
@@ -142,19 +130,13 @@
 						class="mb-6 h-64 w-full rounded-lg object-cover"
 					/>
 				{/if}
-
-				<p class="border-l-4 border-mocha-blue pl-4 text-lg text-mocha-subtext1">
-					{post.description}
-				</p>
 			</header>
 
-			<!-- Post Content (mdsvex rendered) -->
 			<div class="markdown-content mt-8 rounded-lg bg-mocha-crust p-6 md:p-8">
 				<post.content />
 			</div>
 		</article>
 
-		<!-- Previous/Next Navigation -->
 		<nav class="mt-12 flex justify-between border-t border-mocha-surface1 pt-8">
 			{#if prevPost}
 				<a
@@ -187,7 +169,6 @@
 			{/if}
 		</nav>
 
-		<!-- Footer Back Button -->
 		<div class="mt-8 border-t border-mocha-surface1 pt-6">
 			<a
 				href="/posts"
@@ -197,7 +178,7 @@
 				Back to all posts
 			</a>
 		</div>
-		</div> <!-- Close mx-auto max-w-3xl -->
+		</div> 
 	</div>
 {:else}
 	<div class="py-8">

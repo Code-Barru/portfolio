@@ -1,6 +1,8 @@
 import { loadPosts, loadProjects } from '$lib/utils/content.server';
 import type { RequestHandler } from './$types';
 
+export const prerender = true;
+
 const site = 'https://antoineousselin.fr';
 
 export const GET: RequestHandler = async () => {
@@ -16,7 +18,6 @@ export const GET: RequestHandler = async () => {
 		{ url: 'contact', changefreq: 'monthly', priority: 0.6 }
 	];
 
-	// Add locale-specific pages
 	const locales = ['en', 'fr'];
 	const localePages = locales.flatMap((locale) => [
 		{ url: `${locale}`, changefreq: 'daily', priority: 1.0 },
@@ -25,7 +26,6 @@ export const GET: RequestHandler = async () => {
 		{ url: `${locale}/contact`, changefreq: 'monthly', priority: 0.6 }
 	]);
 
-	// Add posts
 	const postPages = [
 		...postsEn.map((post) => ({
 			url: `en/posts/${post.slug}`,
@@ -41,7 +41,6 @@ export const GET: RequestHandler = async () => {
 		}))
 	];
 
-	// Add projects
 	const projectPages = [
 		...projectsEn.map((project) => ({
 			url: `en/projects/${project.slug}`,

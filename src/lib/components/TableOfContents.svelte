@@ -10,21 +10,17 @@
 	let mounted = $state(false);
 
 	onMount(async () => {
-		// Wait for Svelte to finish rendering
 		await tick();
 
-		// Wait for markdown content to be available (with retry)
 		const waitForContent = () => {
 			const content = document.querySelector('.markdown-content');
 			if (content) {
 				headings = extractHeadings(content);
 				setupObserver();
-				// Show TOC after everything is ready
-				requestAnimationFrame(() => {
+				setTimeout(() => {
 					mounted = true;
-				});
+				}, 450);
 			} else {
-				// Retry after a frame if content not ready
 				requestAnimationFrame(waitForContent);
 			}
 		};
@@ -33,7 +29,6 @@
 	});
 
 	function setupObserver() {
-		// Observer to detect active section
 		observer = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((entry) => {
@@ -43,12 +38,11 @@
 				});
 			},
 			{
-				rootMargin: '0px 0px -80% 0px', // Top 20% of viewport
+				rootMargin: '0px 0px -80% 0px',
 				threshold: 0
 			}
 		);
 
-		// Observe all headings
 		headings.forEach((item) => {
 			observer?.observe(item.element);
 			item.children.forEach((child) => observer?.observe(child.element));
@@ -60,8 +54,7 @@
 	});
 </script>
 
-<!-- TOC Sidebar -->
-<nav class="hidden lg:block fixed left-8 top-24 w-56 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-lg bg-mocha-crust p-4 transition-opacity duration-300 {mounted ? 'opacity-100' : 'opacity-0'}">
+<nav class="hidden lg:block fixed left-8 top-24 w-56 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-lg bg-mocha-crust p-4 transition-opacity duration-500 {mounted ? 'opacity-100' : 'opacity-0'}">
 	<h3 class="mb-4 text-sm font-bold text-mocha-text">{m.toc_title()}</h3>
 	<ul class="space-y-2">
 		{#each headings as item}

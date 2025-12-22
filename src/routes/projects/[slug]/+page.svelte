@@ -4,19 +4,15 @@
 	import type { Project, ProjectFrontmatter } from '$lib/types';
 	import { getLocale } from '$lib/paraglide/runtime';
 
-	// Get current locale
 	const currentLocale = getLocale();
 
-	// Import all markdown files (both locales)
 	const allModules = import.meta.glob<{ metadata: ProjectFrontmatter; default: any }>(
 		'/src/projects/*.md',
 		{ eager: true }
 	);
 
-	// Get slug from URL (reactive)
 	let slug = $derived($page.params.slug);
 
-	// Find the matching project and build list for current locale (reactive)
 	let { project, allProjects } = $derived.by(() => {
 		let foundProject: (Project & { content: any }) | null = null;
 		let projects: Project[] = [];
@@ -24,11 +20,9 @@
 		for (const [path, module] of Object.entries(allModules)) {
 			const filename = path.split('/').pop()?.replace(/\.(md|svx)$/, '').replace(/\.(en|fr)$/, '');
 
-			// Extract locale from filename
 			const localeMatch = path.match(/\.(en|fr)\.md$/);
 			const fileLocale = (localeMatch ? localeMatch[1] : 'en') as 'en' | 'fr';
 
-			// Only process files matching current locale
 			if (fileLocale !== currentLocale) {
 				continue;
 			}
@@ -48,13 +42,11 @@
 			}
 		}
 
-		// Sort projects by date
 		projects.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 		return { project: foundProject, allProjects: projects };
 	});
 
-	// Find prev/next projects (reactive)
 	let currentIndex = $derived(allProjects.findIndex((p) => p.slug === slug));
 	let prevProject = $derived(currentIndex > 0 ? allProjects[currentIndex - 1] : null);
 	let nextProject = $derived(currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : null);
@@ -153,7 +145,6 @@
 					/>
 				{/if}
 
-				<!-- Tags (including technologies) -->
 				{#if project.tags.length > 0}
 					<div class="mb-4 flex flex-wrap gap-2">
 						<TagIcon size={16} class="mt-1 text-mocha-subtext0" />
@@ -169,11 +160,8 @@
 						{/each}
 					</div>
 				{/if}
-
-				<!-- Links -->
 			</header>
 
-			<!-- Project Content -->
 			<div class="markdown-content mt-8 rounded-lg bg-mocha-crust p-6 md:p-8">
 				<project.content />
 			</div>

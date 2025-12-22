@@ -5,11 +5,9 @@
   import type { MapMarker } from '$lib/types';
   import styleTemplate from '$lib/styles/maptiler-catppuccin.json';
 
-  // Constants pour détection de changement de langue
   const LANG_CHANGE_FLAG = 'locale_switching';
-  const LANG_CHANGE_WINDOW_MS = 2000; // 2 secondes
+  const LANG_CHANGE_WINDOW_MS = 2000;
 
-  // Props avec destructuring Svelte 5
   let {
     center,
     zoom = 12,
@@ -34,42 +32,32 @@
     enableTraveling?: boolean;
   } = $props();
 
-  // State
   let mapContainer = $state<HTMLDivElement | null>(null);
   let map = $state<MapLibreMap | null>(null);
   let markerInstance = $state<Marker | null>(null);
   let isTravelingComplete = $state<boolean>(!enableTraveling);
 
-  // Effect pour initialisation
   $effect(() => {
     if (!browser || !mapContainer) return;
 
-    // Import dynamique pour réduire bundle initial
     import('maplibre-gl').then(({ Map, NavigationControl, Marker, Popup }) => {
-      // Préparer le style avec la clé API
       const apiKey = env.PUBLIC_MAPTILER_API_KEY;
       const styleString = JSON.stringify(styleTemplate);
       const styleWithKey = styleString.replaceAll('USE_KEY_PARAMETER', apiKey);
       const mapStyle = JSON.parse(styleWithKey);
 
-      // Vérifier si le chargement est dû à un changement de langue
       const langChangeTimestamp = browser && sessionStorage.getItem(LANG_CHANGE_FLAG);
       const isLanguageChange = langChangeTimestamp &&
         (Date.now() - parseInt(langChangeTimestamp)) < LANG_CHANGE_WINDOW_MS;
 
-      // Nettoyer le flag s'il est présent
       if (browser && langChangeTimestamp) {
         sessionStorage.removeItem(LANG_CHANGE_FLAG);
       }
 
-      // Décider si l'animation doit jouer
       const shouldPlayAnimation = enableTraveling && !isLanguageChange;
-
-      // Position initiale (Europe si animation doit jouer, sinon position normale)
       const initialCenter = shouldPlayAnimation ? [10.0, 52.0] as [number, number] : center;
       const initialZoom = shouldPlayAnimation ? 2 : zoom;
 
-      // Initialiser la carte
       map = new Map({
         container: mapContainer,
         style: mapStyle,
@@ -80,18 +68,14 @@
         maxZoom
       });
 
-      // Ajouter controls et markers
       const addControlsAndMarkers = () => {
         if (!map) return;
 
-        // Ajouter controls si demandé
         if (showControls) {
           map.addControl(new NavigationControl(), 'top-right');
         }
 
-        // Ajouter marker si fourni
         if (marker) {
-          // Créer élément HTML personnalisé avec couleur lavender
           const el = document.createElement('div');
           el.className = 'custom-marker';
           el.style.backgroundColor = marker.color || '#b4befe';
@@ -106,7 +90,6 @@
             .setLngLat(marker.position)
             .addTo(map);
 
-          // Ajouter popup si fourni
           if (marker.popup) {
             const popupContent = typeof marker.popup === 'string'
               ? `<p class="text-mocha-text">${marker.popup}</p>`
@@ -120,12 +103,10 @@
         }
       };
 
-      // Gérer l'animation traveling si décidée
       if (shouldPlayAnimation) {
         map.on('load', () => {
           if (!map) return;
 
-          // Attendre un peu que la carte s'affiche, puis animer vers la destination
           setTimeout(() => {
             if (!map) return;
 
@@ -136,30 +117,25 @@
               essential: true
             });
 
-            // Ajouter les controls et markers après le début de l'animation
             setTimeout(() => addControlsAndMarkers(), 500);
 
-            // Marquer le traveling comme terminé après l'animation (8000ms + 500ms de délai)
             setTimeout(() => {
               isTravelingComplete = true;
             }, 5500);
           }, 500);
         });
       } else {
-        // Pas d'animation (changement de langue ou traveling désactivé)
         addControlsAndMarkers();
         isTravelingComplete = true;
       }
     });
 
-    // Cleanup
     return () => {
       markerInstance?.remove();
       map?.remove();
     };
   });
 
-  // Effect pour réactivité center/zoom (seulement après le traveling initial)
   $effect(() => {
     if (map && center && isTravelingComplete) {
       map.flyTo({ center, zoom, duration: 1000 });

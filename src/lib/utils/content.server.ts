@@ -8,7 +8,6 @@ export function calculateReadingTime(content: string): number {
 export function getSlugFromPath(path: string): string {
 	const parts = path.split('/');
 	const filename = parts[parts.length - 1];
-	// Remove .md or .svx extension, then remove .en or .fr if present
 	return filename.replace(/\.(md|svx)$/, '').replace(/\.(en|fr)$/, '');
 }
 

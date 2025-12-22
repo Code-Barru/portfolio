@@ -7,7 +7,6 @@
 	import { FileText, Mail } from '@lucide/svelte';
 	import PlaceHolder from '$lib/components/PlaceHolder.svelte';
 
-  // Lille, France
   const location: [number, number] = [3.0573, 50.6320];
 
   const marker: MapMarker = {
@@ -115,12 +114,13 @@
         </div>
       </div>
       <div class="flex mt-4 gap-2">
-        <button 
+        <a
+          href="/resume.pdf"
           class="flex cursor-pointer items-center text-lg gap-2 px-4 py-2 bg-mocha-surface0 hover:bg-mocha-surface1 active:bg-mocha-surface2 transition-colors duration-200 text-mocha-subtext1 active:text-mocha-text rounded-md shadow-mocha-crust shadow-sm border-t border-t-mocha-surface2"
         >
           {m.resume()}
           <FileText size={24} />
-        </button>
+        </a>
           <a href="https://github.com/Code-Barru" target="_blank" class="flex cursor-pointer hover:text-mocha-blue transition-colors duration-200 items-center mx-1 py-1">
             <Tooltip text="Code-Barru" position="bottom">
               <SiGithub title="" size={24} />
