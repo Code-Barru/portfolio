@@ -28,5 +28,8 @@
   "blog_search": "Rechercher les posts...",
   "blog_filter_by_tags": "Filtrer par étiquettes:",
   "projects_found": "post trouvé ",
-  "projects_found_plural": "posts trouvés"
+  "projects_found_plural": "posts trouvés",
+
+  "education_work": "Travail",
+  "education_education": "Éducation"
 }

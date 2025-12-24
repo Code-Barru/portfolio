@@ -1,11 +1,11 @@
 ---
 title: Codebot
 featured: false
-date: '2025-02-02'
+date: '2022-11-01'
 description: Discord bot that tracks LeagueOfLegends account lp gains.
 tags:
   - discordjs
   - sql
-github: https://github.com/Code-Barru/icarus
+github: https://github.com/Code-Barru/CodeBot-v3
 status: 'archived'
 ---

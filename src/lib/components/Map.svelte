@@ -35,7 +35,7 @@
   let mapContainer = $state<HTMLDivElement | null>(null);
   let map = $state<MapLibreMap | null>(null);
   let markerInstance = $state<Marker | null>(null);
-  let isTravelingComplete = $state<boolean>(!enableTraveling);
+  let isTravelingComplete = $derived(!enableTraveling);
 
   $effect(() => {
     if (!browser || !mapContainer) return;

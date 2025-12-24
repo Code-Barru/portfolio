@@ -1,7 +1,7 @@
 ---
 title: rrd
 featured: false
-date: '2024-09-01'
+date: '2024-05-01'
 description: Implémentation de xxd en Rust.
 tags:
   - rust

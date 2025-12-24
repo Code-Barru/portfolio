@@ -29,5 +29,8 @@
   "blog_search": "Search posts...",
   "blog_filter_by_tags": "Filter by tags:",
   "projects_found": "post found",
-  "projects_found_plural": "posts found"
+  "projects_found_plural": "posts found",
+
+  "education_work": "Work",
+  "education_education": "Education"
 }

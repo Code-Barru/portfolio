@@ -7,11 +7,6 @@ build
 .svelte-kit
 dist
 
-# Environment files
-.env
-.env.*
-!.env.example
-
 # Git
 .git
 .gitignore

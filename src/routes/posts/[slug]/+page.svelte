@@ -113,9 +113,9 @@
 						{#each post.tags as tag}
 							<a
 								href="/posts?tags={tag}"
-								class="rounded-full bg-mocha-surface0 px-3 py-1 text-sm
-									text-mocha-subtext1 transition-colors duration-200
-									hover:bg-mocha-surface1"
+								class="rounded-full px-3 py-1 text-sm
+									transition-colors duration-200 shadow-mocha-crust shadow-sm
+									bg-mocha-base text-mocha-text border border-mocha-surface1 border-t-mocha-surface2 hover:border-mocha-blue active:bg-mocha-surface0"
 							>
 								{tag}
 							</a>

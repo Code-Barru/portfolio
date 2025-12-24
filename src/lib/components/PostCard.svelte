@@ -21,8 +21,8 @@
 
 <a
 	href="/posts/{post.slug}"
-	class="block group relative overflow-hidden rounded-lg border border-mocha-surface1 bg-mocha-surface0
-	       transition-colors duration-200 hover:border-mocha-blue"
+	class="block group relative overflow-hidden rounded-md border border-mocha-surface1 border-t-mocha-surface2 bg-mocha-base shadow-mocha-crust shadow-sm
+	       transition-all duration-200 hover:border-mocha-blue hover:shadow-md"
 >
 	<!-- Terminal Section -->
 	<div class="flex h-40 items-center justify-center bg-mocha-crust">

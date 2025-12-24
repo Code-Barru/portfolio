@@ -11,7 +11,7 @@ published: true
 
 ## What is shellcode execution ?
 
-Shellcode execution is a technique used by malwares to avoid Antivirus and EDRs detection. Although it is now well known and easily detected, it’s crucial to understand how it works as it lays the basics fore more advanced shellcode execution methods.
+Shellcode execution is a technique used by malwares to avoid Antivirus and EDRs detection. Although it is now well known and easily detected, it’s crucial to understand how it works as it lays the basics for more advanced shellcode execution methods.
 
 It consist of reading shellcode from a file, a remote server or a constant byte array and executing it in the local program. The shellcode is a small piece of byte code (written in assembly or compiled into raw bytes). It doesn’t need to be written to the disk or to be loaded by the Operating System.
 
@@ -19,11 +19,11 @@ It consist of reading shellcode from a file, a remote server or a constant byte 
 
 Shellcode execution works by allocating memory in the current program, writing the shellcode in the allocated memory :
 
-<img src="/imgs/blog/shellcode_schema1.png" alt="diagram 1" class="w-full" />
+![Schema1](/imgs/blog/shellcode_schema1.png)
 
 and finally, executing it :
 
-<img src="/imgs/blog/shellcode_schema2.png" alt="diagram 1" class="w-full" />
+![Schema2](/imgs/blog/shellcode_schema2.png)
 
 ### Prerequisites
 

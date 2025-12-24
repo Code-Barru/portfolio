@@ -30,8 +30,8 @@
 </script>
 
 <div
-	class="group relative overflow-hidden rounded-lg border border-mocha-surface1 bg-mocha-surface0
-              transition-colors duration-200 hover:border-mocha-blue"
+	class="group relative overflow-hidden rounded-md border border-mocha-surface1 border-t-mocha-surface2 bg-mocha-base shadow-mocha-crust shadow-sm
+              transition-all duration-200 hover:border-mocha-blue hover:shadow-md"
 >
 	{#if project.featured}
 		<div
@@ -90,7 +90,7 @@
 					href={project.github}
 					target="_blank"
 					rel="noopener noreferrer"
-					class="flex items-center gap-1 text-sm text-mocha-blue transition-colors hover:text-mocha-sapphire"
+					class="flex items-center gap-1 text-sm px-2 py-1 border border-mocha-surface1 border-t-mocha-surface2 bg-mocha-base rounded-md shadow-mocha-crust shadow-sm text-mocha-text hover:border-mocha-blue transition-colors duration-200"
 				>
 					<Github size={16} />
 					Code
@@ -101,7 +101,7 @@
 					href={project.demoUrl}
 					target="_blank"
 					rel="noopener noreferrer"
-					class="flex items-center gap-1 text-sm text-mocha-blue transition-colors hover:text-mocha-sapphire"
+					class="flex items-center gap-1 text-sm px-2 py-1 border border-mocha-surface1 border-t-mocha-surface2 bg-mocha-base rounded-md shadow-mocha-crust shadow-sm text-mocha-text hover:border-mocha-blue transition-colors duration-200"
 				>
 					<ExternalLink size={16} />
 					Demo
@@ -109,7 +109,7 @@
 			{/if}
 			<a
 				href="/projects/{project.slug}"
-				class="ml-auto flex items-center gap-1 text-sm text-mocha-blue transition-colors hover:text-mocha-sapphire"
+				class="ml-auto flex items-center gap-1 text-sm px-2 py-1 rounded-md text-mocha-text hover:text-mocha-blue transition-colors duration-200"
 			>
         {m.projects_read_more()} →
 			</a>

@@ -116,8 +116,8 @@
 							href={project.github}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="flex items-center gap-2 rounded-lg bg-mocha-surface0 px-4 py-2
-                   text-mocha-text transition-colors duration-200 hover:bg-mocha-surface1"
+							class="flex items-center gap-2 rounded-md bg-mocha-base border border-mocha-surface1 border-t-mocha-surface2 px-4 py-2 shadow-mocha-crust shadow-sm
+                   text-mocha-text transition-colors duration-200 hover:border-mocha-blue active:bg-mocha-surface0"
 						>
 							<Github size={18} />
 							View Source
@@ -128,8 +128,8 @@
 							href={project.demoUrl}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="flex items-center gap-2 rounded-lg bg-mocha-blue/90 px-4 py-2
-                   text-mocha-base transition-colors duration-200 hover:bg-mocha-blue"
+							class="flex items-center gap-2 rounded-md bg-mocha-blue border border-mocha-sapphire border-t-mocha-sky px-4 py-2 shadow-mocha-crust shadow-sm
+                   text-mocha-base transition-colors duration-200 hover:bg-mocha-sapphire active:bg-mocha-lavender"
 						>
 							<ExternalLink size={18} />
 							Live Demo
@@ -151,9 +151,9 @@
 						{#each project.tags as tag}
 							<a
 								href="/projects?tags={tag}"
-								class="rounded-full bg-mocha-surface0 px-3 py-1 text-sm
-									text-mocha-subtext1 transition-colors duration-200
-									hover:bg-mocha-surface1"
+								class="rounded-full px-3 py-1 text-sm
+									transition-colors duration-200 shadow-mocha-crust shadow-sm
+									bg-mocha-base text-mocha-text border border-mocha-surface1 border-t-mocha-surface2 hover:border-mocha-blue active:bg-mocha-surface0"
 							>
 								{tag}
 							</a>

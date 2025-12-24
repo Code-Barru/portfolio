@@ -1,6 +1,7 @@
 <script lang="ts">
   import Map from '$lib/components/Map.svelte';
   import Tooltip from '$lib/components/Tooltip.svelte';
+  import Education from '$lib/components/Education.svelte';
   import type { MapMarker, TechStackItem } from '$lib/types';
   import { SiDebian, SiDocker, SiGithub, SiPostgresql, SiRust, SiSvelte, SiTypescript } from '@icons-pack/svelte-simple-icons';
   import { m } from '$lib/paraglide/messages';
@@ -116,7 +117,7 @@
       <div class="flex mt-4 gap-2">
         <a
           href="/resume.pdf"
-          class="flex cursor-pointer items-center text-lg gap-2 px-4 py-2 bg-mocha-surface0 hover:bg-mocha-surface1 active:bg-mocha-surface2 transition-colors duration-200 text-mocha-subtext1 active:text-mocha-text rounded-md shadow-mocha-crust shadow-sm border-t border-t-mocha-surface2"
+          class="flex cursor-pointer items-center text-lg gap-2 px-4 py-2 bg-mocha-base border border-mocha-surface1 hover:border-mocha-blue active:bg-mocha-surface0 transition-colors duration-200 text-mocha-text rounded-md shadow-mocha-crust shadow-sm border-t-mocha-surface2"
         >
           {m.resume()}
           <FileText size={24} />
@@ -134,4 +135,5 @@
       <PlaceHolder customClass="hidden md:flex" width={120} height={160} />
       <PlaceHolder customClass="md:hidden" width={125} height={200} />
   </div>
+  <Education />
 </div>

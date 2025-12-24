@@ -88,9 +88,9 @@
 				type="text"
 				placeholder={m.projects_search()}
 				bind:value={searchQuery}
-				class="w-full rounded-lg border border-mocha-surface1 bg-mocha-surface0 py-2 pl-10 pr-4
+				class="w-full rounded-md border border-mocha-surface1 border-t-mocha-surface2 bg-mocha-base py-2 pl-10 pr-4 shadow-mocha-crust shadow-sm
                text-mocha-text placeholder-mocha-subtext0
-               focus:outline-none focus:ring-2 focus:ring-mocha-blue"
+               focus:outline-none focus:border-mocha-blue transition-colors duration-200"
 			/>
 		</div>
 
@@ -99,10 +99,10 @@
 			<button
 				onclick={() =>
 					updateParams({ featured: showFeaturedOnly ? null : 'true', page: null })}
-				class="flex items-center gap-2 rounded-lg px-4 py-2 transition-colors duration-200
+				class="flex cursor-pointer items-center gap-2 px-4 py-2 border rounded-md shadow-mocha-crust shadow-sm transition-colors duration-200
                {showFeaturedOnly
-					? 'bg-mocha-yellow text-mocha-base'
-					: 'bg-mocha-surface0 text-mocha-subtext1 hover:bg-mocha-surface1'}"
+					? 'bg-mocha-blue text-mocha-base border-mocha-sapphire border-t-mocha-sky'
+					: 'bg-mocha-base text-mocha-text border-mocha-surface1 border-t-mocha-surface2 hover:border-mocha-blue active:bg-mocha-surface0'}"
 			>
 				<Star size={16} fill={showFeaturedOnly ? 'currentColor' : 'none'} />
         {m.projects_featured_only()}
@@ -121,10 +121,10 @@
 				{#each data.tags as tag}
 					<button
 						onclick={() => toggleTag(tag)}
-						class="rounded-full px-3 py-1 text-sm transition-colors duration-200
+						class="cursor-pointer px-3 py-1 text-sm border rounded-full shadow-mocha-crust shadow-sm transition-colors duration-200
                    {selectedTags.includes(tag)
-							? 'bg-mocha-blue text-mocha-base'
-							: 'bg-mocha-surface0 text-mocha-subtext1 hover:bg-mocha-surface1'}"
+							? 'bg-mocha-blue text-mocha-base border-mocha-sapphire border-t-mocha-sky'
+							: 'bg-mocha-base text-mocha-text border-mocha-surface1 border-t-mocha-surface2 hover:border-mocha-blue active:bg-mocha-surface0'}"
 					>
 						{tag}
 					</button>
@@ -151,10 +151,10 @@
 			{#each Array(paginatedData.totalPages) as _, i}
 				<button
 					onclick={() => updateParams({ page: (i + 1).toString() })}
-					class="rounded-lg px-4 py-2 transition-colors duration-200
+					class="px-4 py-2 border rounded-md shadow-mocha-crust shadow-sm transition-colors duration-200
                  {currentPage === i + 1
-						? 'bg-mocha-blue text-mocha-base'
-						: 'bg-mocha-surface0 text-mocha-subtext1 hover:bg-mocha-surface1'}"
+						? 'bg-mocha-blue text-mocha-base border-mocha-sapphire border-t-mocha-sky'
+						: 'bg-mocha-base text-mocha-text border-mocha-surface1 border-t-mocha-surface2 hover:border-mocha-blue active:bg-mocha-surface0'}"
 				>
 					{i + 1}
 				</button>

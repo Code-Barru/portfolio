@@ -9,6 +9,15 @@ export interface TechStackItem {
   title: string,
   link: string
 }
+export interface TimelineItem {
+	title: string;
+	role: string;
+	date: string;
+	link: string;
+	descriptions: string[];
+	lightImgUrl: string;
+	darkImgUrl: string;
+};
 
 export interface MapLocation {
   longitude: number;

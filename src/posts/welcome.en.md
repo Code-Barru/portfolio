@@ -102,6 +102,3 @@ fn main() {
 > [!CAUTION]
 > Danger
 
-## Conclusion
-
-This document tests all Markdown functionalities to ensure proper formatting and readability.

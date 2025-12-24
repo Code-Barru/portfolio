@@ -1,7 +1,7 @@
 ---
 title: Pandora
 featured: false
-date: '2025-02-02'
+date: '2024-08-02'
 description: First attempt at C2 server. Discord C2 and agent with persistence.
 tags:
   - rust

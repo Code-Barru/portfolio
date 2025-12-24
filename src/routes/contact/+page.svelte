@@ -93,7 +93,7 @@
 <button
   type="submit"
   onclick={handleSubmit}
-  class="bg-mocha-blue/80 text-mocha-base hover:bg-mocha-blue/90 active:bg-mocha-blue w-full cursor-pointer rounded-md border-t-2 border-mocha-blue px-4 py-2 shadow-sm shadow-mocha-crust transition-colors duration-200 focus:ring-0 focus:outline-none"
+  class="bg-mocha-blue border border-mocha-sapphire border-t-mocha-sky hover:bg-mocha-sapphire active:bg-mocha-lavender text-mocha-base w-full cursor-pointer rounded-md px-4 py-2 shadow-sm shadow-mocha-crust transition-colors duration-200 focus:ring-0 focus:outline-none"
 >
   <div class="flex items-center justify-center gap-1">
     Send

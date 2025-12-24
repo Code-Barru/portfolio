@@ -8,51 +8,51 @@ tags:
 published: true
 ---
 
-I'm making this post to test every markdown feature.
+Je fais ce post pour tester toutes les fonctionnalités markdown.
 
-## Text Formatting
+## Mise en forme de texte
 
-### Bold, Italic, and Strikethrough
+### Texte gras, italique et rayé
 
-- **Bold text**
-- _Italic text_
-- **_Bold and italic text_**
-- ~~Strikethrough text~~
+- **Texte gras**
+- _Texte italic_
+- **_Text gras et italique_**
+- ~~Texte rayé~~
 
-### Blockquotes
+## Citation en bloque
 
-> This is a blockquote.
+> Ceci est une citation
 >
-> It can span multiple lines.
+> Sur plusieurs lignes
 
-## Lists
+## Listes
 
-### Unordered List
+### Liste non ordonnée
 
-- Item 1
-- Item 2
-  - Subitem 2.1
-  - Subitem 2.2
-- Item 3
+- Objet 1
+- Objet 2
+  - Sous objet 2.1
+  - Sous objet 2.2
+- Objet 3
 
-### Ordered List
+### Liste ordonnée
 
-1. First item
-2. Second item
-   1. Subitem 2.1
-   2. Subitem 2.2
-3. Third item
+1. Premier objet
+2. Second objet
+   1. Sous objet 2.1
+   2. Sous objet 2.2
+3. Troisième objet
 
 ## Code
 
-### Inline Code
+### Code inline
 
-Use `println!("Hello, World!");` to display text in Rust.
+Utilisez `println("Hello, World!");` pour afficher du texte en Rust.
 
-### Code Block
+### Bloc de code
 
 ```rust
-// This is a Rust code block
+// Ceci est un bloque de code en Rust
 fn main() {
   println!("Hello, World!");
 }
@@ -60,23 +60,23 @@ fn main() {
 
 ## Tables
 
-| Name  | Age | City     |
+| Nom   | Age | Ville    |
 | ----- | --- | -------- |
 | Alice | 25  | New York |
 | Bob   | 30  | London   |
 | Eve   | 22  | Berlin   |
 
-## Links and Images
+## Links et images
 
 ### Hyperlink
 
-[Visit My Blog!](/)
+[Visitez mon site!](/)
 
 ### Image
 
-![Markdown Logo](/imgs/icarus-banner.webp)
+![Logo markdown](https://www.markdownlang.com/static/images/logo.svg)
 
-## Horizontal Rule
+## Séparateur horizontal
 
 ---
 
@@ -84,7 +84,7 @@ fn main() {
 
 😀 🎉 🚀
 
-## Alerts
+## Alertes
 
 > [!NOTE]
 > Information importante
@@ -101,7 +101,3 @@ fn main() {
 
 > [!CAUTION]
 > Danger
-
-## Conclusion
-
-This document tests all Markdown functionalities to ensure proper formatting and readability.
