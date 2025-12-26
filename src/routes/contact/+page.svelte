@@ -6,58 +6,19 @@
 	let email = $state('');
 	let message = $state('');
 
-	let loading = $state(false);
-	let success = $state(false);
-	let error = $state(false);
-
-	async function handleSubmit(event: Event) {
-		event.preventDefault();
-		if (!name || !email || !message) {
-			return;
-		}
-		loading = true;
-		error = false;
-		success = false;
-
-		const data = {
-			name,
-			email,
-			message
-		};
-
-		try {
-			const response = await fetch('/api/contact', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(data)
-			});
-
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-
-			success = true;
-		} catch (err) {
-			console.log(err);
-			error = true;
-		} finally {
-			loading = false;
-		}
-	}
 </script>
 
 <svelte:head>
 	<title>Antoine's chronicles - Offensive software enjoyer - Contact</title>
 </svelte:head>
 
-<div class="text-start text-mocha-blue text-3xl font-bold">contact me</div>
+<div class="py-8">
+<h1 class="mb-8 text-4xl font-bold text-mocha-blue">contact me</h1>
 
-<div class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+<div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
 	<div class="h-10">
 		<input
-			class="border-input  focus:border-mocha-lavender border-mocha-surface0 bg-mocha-surface0 text-mocha-text flex h-9 w-full rounded-md border px-3 py-1 text-sm antialiased focus:ring-0 focus:outline-0"
+			class="border-input  focus:border-mocha-blue border-mocha-surface0 bg-mocha-surface0 text-mocha-text flex h-9 w-full rounded-md border px-3 py-1 text-sm antialiased focus:ring-0 focus:outline-0"
 			id="name"
 			placeholder={m.contact_name()}
 			autocomplete="given-name"
@@ -69,7 +30,7 @@
 	</div>
 	<div class="h-10">
 		<input
-			class="border-input  focus:border-mocha-lavender border-mocha-surface0 bg-mocha-surface0 text-mocha-text flex h-9 w-full rounded-md border px-3 py-1 text-sm antialiased focus:ring-0 focus:outline-0"
+			class="border-input  focus:border-mocha-blue border-mocha-surface0 bg-mocha-surface0 text-mocha-text flex h-9 w-full rounded-md border px-3 py-1 text-sm antialiased focus:ring-0 focus:outline-0"
 			id="email"
 			placeholder={m.contact_email()}
 			autocomplete="email"
@@ -81,7 +42,7 @@
 	</div>
 	<div class="h-32 sm:col-span-2 mb-3">
 		<textarea
-			class="border-input mb-5  focus:border-mocha-lavender border-mocha-surface0 resize-nonce bg-mocha-surface0 text-mocha-text flex h-32 w-full rounded-md border px-3 py-1 text-sm antialiased focus:ring-0 focus:outline-0"
+			class="border-input mb-5  focus:border-mocha-blue border-mocha-surface0 resize-nonce bg-mocha-surface0 text-mocha-text flex h-32 w-full rounded-md border px-3 py-1 text-sm antialiased focus:ring-0 focus:outline-0"
 			rows="4"
 			placeholder={m.contact_textarea()}
 			name="message"
@@ -92,11 +53,11 @@
 </div>
 <button
   type="submit"
-  onclick={handleSubmit}
-  class="bg-mocha-blue border border-mocha-sapphire border-t-mocha-sky hover:bg-mocha-sapphire active:bg-mocha-lavender text-mocha-base w-full cursor-pointer rounded-md px-4 py-2 shadow-sm shadow-mocha-crust transition-colors duration-200 focus:ring-0 focus:outline-none"
+  class="bg-mocha-blue border border-mocha-sapphire border-t-mocha-sky hover:bg-mocha-sapphire active:bg-mocha-sky text-mocha-base w-full cursor-pointer rounded-md px-4 py-2 shadow-sm shadow-mocha-crust transition-colors duration-200 focus:ring-0 focus:outline-none"
 >
   <div class="flex items-center justify-center gap-1">
     Send
     <Send size="18" />
   </div>
 </button>
+</div>

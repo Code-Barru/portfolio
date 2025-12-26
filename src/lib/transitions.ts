@@ -1,4 +1,4 @@
-import { cubicOut } from 'svelte/easing';
+import { cubicOut, quintOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
 
 interface PageTransitionParams {
@@ -30,5 +30,27 @@ export function pageTransition(
 				transform: ${transform} translateX(${translateX}px);
 			`;
 		}
+	};
+}
+
+interface StaggerFadeInParams {
+	delay?: number;
+	duration?: number;
+	easing?: (t: number) => number;
+	y?: number;
+}
+
+export function staggerFadeIn(
+	node: HTMLElement,
+	{ delay = 0, duration = 600, easing = quintOut, y = 30 }: StaggerFadeInParams = {}
+): TransitionConfig {
+	return {
+		delay,
+		duration,
+		easing,
+		css: (t) => `
+			opacity: ${t};
+			transform: translateY(${(1 - t) * y}px);
+		`
 	};
 }

@@ -32,5 +32,20 @@
   "projects_found_plural": "posts found",
 
   "education_work": "Work",
-  "education_education": "Education"
+  "education_education": "Education",
+
+  "view_all": "View all",
+
+  "privacy_title": "Privacy policy",
+  "privacy_section1_title": "Do I collect data?",
+  "privacy_section1_content": "In short: Yes but only the bare minimum. I use self-hosted Umami, an analytics open-source tool that doesn't send data to data brokers.",
+  "privacy_section2_title": "Information Collected",
+  "privacy_section2_intro": "I collect analytics data through Umami:",
+  "privacy_section2_page": "Page URL and referrer (which pages you visit and where you came from)",
+  "privacy_section2_device": "Browser, operating system, device type, and screen resolution",
+  "privacy_section2_location": "Country (based on IP geolocation, but your IP address is NOT stored)",
+  "privacy_section2_language": "Browser language preference",
+  "privacy_section2_not_collected": "What I DON'T collect: IP addresses (not stored), cookies (no third-party cookies), or any personally identifiable information.",
+  "privacy_section3_title": "Will I ever share the collected information?",
+  "privacy_section3_content": "No. Never had. Never will. This data is used solely for personal analytics to understand which pages are visited, when and by who. It's not sold, shared, or used for commercial purposes."
 }

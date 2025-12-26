@@ -2,9 +2,11 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import Navbar from '$lib/components/Navbar.svelte';
+  import Footer from '$lib/components/Footer.svelte';
 	import { page } from '$app/state';
 	import { pageTransition } from '$lib/transitions';
 	import { beforeNavigate } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	let { children } = $props();
 
@@ -50,11 +52,20 @@
 
 	let previousPath = $state<string | null>(null);
 	let transitionDirection = $state<'left' | 'right' | 'bottom'>('bottom');
+	let showFooter = $state(false);
 
 	beforeNavigate((navigation) => {
 		const toPath = navigation.to?.url.pathname ?? '/';
 		transitionDirection = calculateNavigationDirection(previousPath, toPath);
 		previousPath = toPath;
+	});
+
+	onMount(() => {
+		// Afficher le footer après les animations de la page principale
+		// Le dernier élément a un délai de 750ms + 1000ms de durée = 1750ms
+		setTimeout(() => {
+			showFooter = true;
+		}, 1000);
 	});
 </script>
 
@@ -63,8 +74,11 @@
 <div class="mx-auto flex min-h-screen flex-col px-3 md:max-w-3xl md:px-8">
 	<Navbar />
 	{#key page.url.pathname}
-		<div in:pageTransition={{ direction: transitionDirection }}>
+		<div class="flex-grow" in:pageTransition={{ direction: transitionDirection }}>
 			{@render children()}
 		</div>
 	{/key}
+	{#if showFooter}
+		<Footer />
+	{/if}
 </div>

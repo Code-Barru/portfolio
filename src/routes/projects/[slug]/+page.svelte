@@ -129,7 +129,7 @@
 							target="_blank"
 							rel="noopener noreferrer"
 							class="flex items-center gap-2 rounded-md bg-mocha-blue border border-mocha-sapphire border-t-mocha-sky px-4 py-2 shadow-mocha-crust shadow-sm
-                   text-mocha-base transition-colors duration-200 hover:bg-mocha-sapphire active:bg-mocha-lavender"
+                   text-mocha-base transition-colors duration-200 hover:bg-mocha-sapphire active:bg-mocha-sky"
 						>
 							<ExternalLink size={18} />
 							Live Demo

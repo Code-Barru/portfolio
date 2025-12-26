@@ -15,8 +15,7 @@ export interface TimelineItem {
 	date: string;
 	link: string;
 	descriptions: string[];
-	lightImgUrl: string;
-	darkImgUrl: string;
+  imgUrl: string
 };
 
 export interface MapLocation {

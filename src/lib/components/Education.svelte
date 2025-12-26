@@ -21,8 +21,7 @@
           'Worked on the development of internal tools.',
           'Fragmented a monolithic application into microservices.'
         ],
-        darkImgUrl: '/imgs/tadao.png',
-        lightImgUrl: '/imgs/tadao.png'
+        imgUrl: '/imgs/tadao.webp',
       }
     ];
 
@@ -37,8 +36,7 @@
           'Learned about the latest methodologies.',
           'Developed a few side projects in Rust.'
         ],
-        darkImgUrl: '/imgs/epitech.png',
-        lightImgUrl: '/imgs/epitech.png'
+        imgUrl: '/imgs/epitech.webp'
       },
       {
         title: 'IUT de Lens',
@@ -49,8 +47,7 @@
           'Learned the basics of computer science.',
           'Developed a few projects in C++, Java, PHP and Python.'
         ],
-        darkImgUrl: '/imgs/iut-lens-dark.png',
-        lightImgUrl: '/imgs/iut-lens-light.png'
+        imgUrl: '/imgs/iut-lens.webp'
       }
     ];
 
@@ -115,20 +112,20 @@
 	</label>
 </div>
 <!-- Hidden elements for height measurement -->
-<div class="invisible absolute pointer-events-none">
-	<div bind:this={workRef}>
+<div class="invisible absolute pointer-events-none w-full left-0 right-0">
+	<div bind:this={workRef} class="px-3">
 		<Timeline items={workItems} />
 	</div>
 </div>
-<div class="invisible absolute pointer-events-none">
-	<div bind:this={educationRef}>
+<div class="invisible absolute pointer-events-none w-full left-0 right-0">
+	<div bind:this={educationRef} class="px-3">
 		<Timeline items={educationItems} />
 	</div>
 </div>
 
 <!-- Content section -->
 <div
-	class="mt-4 bg-mocha-base border border-mocha-surface1 rounded-md shadow-mocha-crust shadow-sm border-t-mocha-surface2 p-3 transition-all duration-300 ease-in-out"
+	class="mt-1 md:mt-4 bg-mocha-base border border-mocha-surface1 rounded-md shadow-mocha-crust shadow-sm border-t-mocha-surface2 p-3 transition-all duration-300 ease-in-out"
 	style="height: {containerHeight}px"
 >
 	<div class="overflow-hidden">

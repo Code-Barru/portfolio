@@ -1,12 +1,20 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import Map from '$lib/components/Map.svelte';
   import Tooltip from '$lib/components/Tooltip.svelte';
   import Education from '$lib/components/Education.svelte';
+  import ProjectCard from '$lib/components/ProjectCard.svelte';
+  import PostCard from '$lib/components/PostCard.svelte';
   import type { MapMarker, TechStackItem } from '$lib/types';
+  import type { PageData } from './$types';
   import { SiDebian, SiDocker, SiGithub, SiPostgresql, SiRust, SiSvelte, SiTypescript } from '@icons-pack/svelte-simple-icons';
   import { m } from '$lib/paraglide/messages';
+  import { getLocale } from '$lib/paraglide/runtime';
 	import { FileText, Mail } from '@lucide/svelte';
 	import PlaceHolder from '$lib/components/PlaceHolder.svelte';
+  import { staggerFadeIn } from '$lib/transitions';
+
+  let { data }: { data: PageData } = $props();
 
   const location: [number, number] = [3.0573, 50.6320];
 
@@ -71,11 +79,45 @@
       title: "Postgresql"
     },
   ];
+
+  let mounted = $state(false);
+  let prefersReducedMotion = $state(false);
+
+  const currentLocale = getLocale();
+
+  let displayProjects = $derived.by(() => {
+    const localeProjects = data.projects.filter(p => p.locale === currentLocale);
+
+    const sorted = [...localeProjects].sort((a, b) => {
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+
+    return sorted.slice(0, 2);
+  });
+
+  let displayPosts = $derived.by(() => {
+    return data.posts
+      .filter(p => p.locale === currentLocale)
+      .slice(0, 2);
+  });
+
+  onMount(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    prefersReducedMotion = mediaQuery.matches;
+
+    mounted = true;
+  });
 </script>
 
 
 <div class="my-2 md:my-10">
-  <div class="relative w-full mx-auto h-40 md:h-60 overflow-hidden">
+  {#if mounted}
+  <div
+    class="relative w-full mx-auto h-40 md:h-60 overflow-hidden"
+    in:staggerFadeIn={{ duration: 1000, delay: 0 }}
+  >
     <Map
       center={location}
       zoom={12}
@@ -88,9 +130,14 @@
       class="absolute bottom-0 left-0 right-0 h-8 bg-linear-to-t from-mocha-base via-mocha-base/90 to-transparent">
     </div>
   </div>
+  {/if}
 
   <div class="flex flex-col-reverse mt-3 items-start md:flex-row md:h-72 justify-between">
-		<div class="flex flex-col md:max-w-3/5 h-full grow">
+    {#if mounted}
+		<div
+      class="flex flex-col md:max-w-3/5 h-full grow"
+      in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 150 }}
+    >
       <div class="flex flex-col">
         <div class="text-mocha-subtext0 font-bold text-xl">{m.hi_text()}</div>
         <div class="text-mocha-blue font-bold text-4xl">Antoine Ousselin</div>
@@ -100,7 +147,7 @@
           <strong class="text-mocha-blue">Rust</strong>.
         </div>
         <div class="flex mt-3 flex-row gap-3">
-          {#each techStackItems as item}
+          {#each techStackItems as item (item.title)}
             <a
               href={item.link}
               target="_blank"
@@ -132,8 +179,59 @@
           </a>
       </div>
     </div>
+    {/if}
+    {#if mounted}
+    <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 300 }}>
       <PlaceHolder customClass="hidden md:flex" width={120} height={160} />
       <PlaceHolder customClass="md:hidden" width={125} height={200} />
+    </div>
+    {/if}
   </div>
-  <Education />
+  {#if mounted}
+  <div class="relative mt-6 md:mt-0" in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 450 }}>
+    <Education />
+  </div>
+  {/if}
+
+  {#if mounted && displayProjects.length > 0}
+  <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 600 }}>
+    <section class="mt-12">
+      <div class="mb-6 flex items-center justify-between">
+        <h2 class="text-3xl font-bold text-mocha-blue">{m.projects_name()}</h2>
+        <a
+          href="/projects"
+          class="flex items-center gap-1 text-sm text-mocha-subtext0 hover:text-mocha-blue transition-colors duration-200"
+        >
+          {m.view_all()} →
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {#each displayProjects as project (project.slug)}
+          <ProjectCard {project} />
+        {/each}
+      </div>
+    </section>
+  </div>
+  {/if}
+
+  {#if mounted && displayPosts.length > 0}
+  <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 750 }}>
+    <section class="mt-12">
+      <div class="mb-6 flex items-center justify-between">
+        <h2 class="text-3xl font-bold text-mocha-blue">{m.blog_name()}</h2>
+        <a
+          href="/posts"
+          class="flex items-center gap-1 text-sm text-mocha-subtext0 hover:text-mocha-blue transition-colors duration-200"
+        >
+          {m.view_all()} →
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {#each displayPosts as post (post.slug)}
+          <PostCard {post} />
+        {/each}
+      </div>
+    </section>
+  </div>
+  {/if}
 </div>

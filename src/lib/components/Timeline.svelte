@@ -22,7 +22,7 @@
 						class="bg-mocha-surface0 relative z-10 grid h-10 w-10 place-items-center rounded-full p-0.5"
 					>
 						<img
-							src={item.darkImgUrl}
+							src={item.imgUrl}
 							loading="eager"
 							alt="{item.title} logo"
 							class="inline-block h-full w-full rounded-full object-cover object-center"
