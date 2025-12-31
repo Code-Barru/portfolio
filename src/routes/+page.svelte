@@ -164,6 +164,7 @@
       <div class="flex mt-4 gap-2">
         <a
           href="/resume.pdf"
+          target="_blank"
           class="flex cursor-pointer items-center text-lg gap-2 px-4 py-2 bg-mocha-base border border-mocha-surface1 hover:border-mocha-blue active:bg-mocha-surface0 transition-colors duration-200 text-mocha-text rounded-md shadow-mocha-crust shadow-sm border-t-mocha-surface2"
         >
           {m.resume()}
@@ -180,12 +181,12 @@
       </div>
     </div>
     {/if}
-    {#if mounted}
-    <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 300 }}>
-      <PlaceHolder customClass="hidden md:flex" width={120} height={160} />
-      <PlaceHolder customClass="md:hidden" width={125} height={200} />
-    </div>
-    {/if}
+    <!-- {#if mounted} -->
+    <!-- <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 300 }}> -->
+    <!--   <PlaceHolder customClass="hidden md:flex" width={120} height={160} /> -->
+    <!--   <PlaceHolder customClass="md:hidden" width={125} height={200} /> -->
+    <!-- </div> -->
+    <!-- {/if} -->
   </div>
   {#if mounted}
   <div class="relative mt-6 md:mt-0" in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 450 }}>

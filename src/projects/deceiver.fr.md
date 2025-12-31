@@ -9,7 +9,6 @@ tags:
   - tool
   - maldev
 github: https://github.com/Code-Barru/deceiver
-imgUrl: /imgs/trickster-banner.webp
 status: 'completed'
 ---
 
