@@ -46,5 +46,22 @@
   "privacy_section2_language": "Préférence de langue du navigateur",
   "privacy_section2_not_collected": "Ce que je ne collecte PAS : Adresses IP (non stockées), cookies (pas de cookies tiers), ou toute information personnellement identifiable.",
   "privacy_section3_title": "Est-ce que je partagerai les informations collectées ?",
-  "privacy_section3_content": "Non. Jamais fait et je ne le ferai jamais. Ces données sont utilisées uniquement pour des analyses personnelles afin de comprendre quelles pages sont visitées, quand et par qui. Elles ne sont ni vendues, ni partagées, ni utilisées à des fins commerciales."
+  "privacy_section3_content": "Non. Jamais fait et je ne le ferai jamais. Ces données sont utilisées uniquement pour des analyses personnelles afin de comprendre quelles pages sont visitées, quand et par qui. Elles ne sont ni vendues, ni partagées, ni utilisées à des fins commerciales.",
+
+  "seo_home_title": "Antoine Ousselin - Développeur Backend & Logiciels Offensifs",
+  "seo_home_description": "Développeur backend et logiciels offensifs de 23 ans basé à Lille, France, spécialisé en Rust, TypeScript et SvelteKit. Passionné par la création d'applications rapides, sécurisées et la recherche en sécurité offensive.",
+  "seo_projects_title": "Projets - Antoine Ousselin",
+  "seo_projects_description": "Parcourez mes projets vedettes en Rust, TypeScript et sécurité offensive. Explorez des systèmes backend, applications web et outils de recherche en sécurité que j'ai développés.",
+  "seo_blog_title": "Articles - Antoine Ousselin",
+  "seo_blog_description": "Lisez mes derniers articles sur le développement logiciel, la programmation Rust, la sécurité offensive et analyses techniques approfondies en programmation système.",
+  "seo_contact_title": "Contact - Antoine Ousselin",
+  "seo_contact_description": "Contactez-moi pour des opportunités d'emploi, collaborations ou simplement dire bonjour. Je suis toujours ouvert aux projets et conversations intéressants.",
+  "seo_privacy_title": "Politique de Confidentialité - Antoine Ousselin",
+  "seo_privacy_description": "Découvrez les pratiques de collecte de données et de confidentialité sur ce site. J'utilise Umami auto-hébergé avec collecte minimale de données et sans cookies de tracking.",
+
+  "error_404_title": "404 - Page Non Trouvée",
+  "error_404_description": "La page que vous recherchez n'existe pas.",
+  "error_generic_title": "Erreur",
+  "error_generic_description": "Une erreur inattendue s'est produite.",
+  "error_back_home": "Retour à l'accueil"
 }

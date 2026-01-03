@@ -45,7 +45,8 @@ const config = {
 		prerender: {
 			handleHttpError: 'warn',
 			entries: ['*']
-		}
+		},
+		trailingSlash: 'never'
 	},
 
 	extensions: ['.svelte', '.svx', '.md']

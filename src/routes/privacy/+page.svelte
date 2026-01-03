@@ -1,9 +1,26 @@
 <script lang="ts">
   import { m } from '$lib/paraglide/messages';
+	import { getLocale } from '$lib/paraglide/runtime';
+
+	const currentLocale = getLocale();
+	const baseUrl = 'https://antoineousselin.fr';
 </script>
 
 <svelte:head>
-  <title>Antoine's chronicles - Offensive software enjoyer - {m.privacy_title()}</title>
+  <title>{m.seo_privacy_title()}</title>
+	<meta name="description" content={m.seo_privacy_description()} />
+
+	<link rel="canonical" href="{baseUrl}/privacy" />
+
+	<meta property="og:title" content={m.seo_privacy_title()} />
+	<meta property="og:description" content={m.seo_privacy_description()} />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="{baseUrl}/privacy" />
+	<meta property="og:locale" content={currentLocale === 'fr' ? 'fr_FR' : 'en_US'} />
+
+	<link rel="alternate" hreflang="en" href="{baseUrl}/en/privacy" />
+	<link rel="alternate" hreflang="fr" href="{baseUrl}/fr/privacy" />
+	<link rel="alternate" hreflang="x-default" href="{baseUrl}/privacy" />
 </svelte:head>
 
 <div class="py-8">

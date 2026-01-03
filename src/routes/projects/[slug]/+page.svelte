@@ -5,6 +5,7 @@
 	import { getLocale } from '$lib/paraglide/runtime';
 
 	const currentLocale = getLocale();
+	const baseUrl = 'https://antoineousselin.fr';
 
 	const allModules = import.meta.glob<{ metadata: ProjectFrontmatter; default: any }>(
 		'/src/projects/*.md',
@@ -64,11 +65,21 @@
 	<title>{project?.title || 'Project not found'}</title>
 	{#if project}
 		<meta name="description" content={project.description} />
+
+		<link rel="canonical" href="{baseUrl}/projects/{slug}" />
+
 		<meta property="og:title" content={project.title} />
 		<meta property="og:description" content={project.description} />
+		<meta property="og:type" content="article" />
+		<meta property="og:url" content="{baseUrl}/projects/{slug}" />
+		<meta property="og:locale" content={currentLocale === 'fr' ? 'fr_FR' : 'en_US'} />
 		{#if project.coverImage}
 			<meta property="og:image" content={project.coverImage} />
 		{/if}
+
+		<link rel="alternate" hreflang="en" href="{baseUrl}/en/projects/{slug}" />
+		<link rel="alternate" hreflang="fr" href="{baseUrl}/fr/projects/{slug}" />
+		<link rel="alternate" hreflang="x-default" href="{baseUrl}/projects/{slug}" />
 	{/if}
 </svelte:head>
 
@@ -141,6 +152,9 @@
 					<img
 						src={project.coverImage}
 						alt={project.title}
+						loading="lazy"
+						width="800"
+						height="400"
 						class="mb-6 h-80 w-full rounded-lg object-cover"
 					/>
 				{/if}

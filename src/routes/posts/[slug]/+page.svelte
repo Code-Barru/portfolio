@@ -6,6 +6,7 @@
 	import TableOfContents from '$lib/components/TableOfContents.svelte';
 
 	const currentLocale = getLocale();
+	const baseUrl = 'https://antoineousselin.fr';
 
 	const allModules = import.meta.glob<{ metadata: PostFrontmatter; default: any }>(
 		'/src/posts/*.md',
@@ -65,11 +66,21 @@
 	<title>{post?.title || 'Post not found'}</title>
 	{#if post}
 		<meta name="description" content={post.description} />
+
+		<link rel="canonical" href="{baseUrl}/posts/{slug}" />
+
 		<meta property="og:title" content={post.title} />
 		<meta property="og:description" content={post.description} />
+		<meta property="og:type" content="article" />
+		<meta property="og:url" content="{baseUrl}/posts/{slug}" />
+		<meta property="og:locale" content={currentLocale === 'fr' ? 'fr_FR' : 'en_US'} />
 		{#if post.coverImage}
 			<meta property="og:image" content={post.coverImage} />
 		{/if}
+
+		<link rel="alternate" hreflang="en" href="{baseUrl}/en/posts/{slug}" />
+		<link rel="alternate" hreflang="fr" href="{baseUrl}/fr/posts/{slug}" />
+		<link rel="alternate" hreflang="x-default" href="{baseUrl}/posts/{slug}" />
 	{/if}
 </svelte:head>
 
@@ -127,6 +138,9 @@
 					<img
 						src={post.coverImage}
 						alt={post.title}
+						loading="lazy"
+						width="800"
+						height="400"
 						class="mb-6 h-64 w-full rounded-lg object-cover"
 					/>
 				{/if}

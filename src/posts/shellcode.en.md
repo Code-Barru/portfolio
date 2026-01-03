@@ -19,11 +19,11 @@ It consist of reading shellcode from a file, a remote server or a constant byte 
 
 Shellcode execution works by allocating memory in the current program, writing the shellcode in the allocated memory :
 
-![Schema1](/imgs/blog/shellcode_schema1.png)
+![Schema1](/imgs/blog/shellcode_schema1.webp)
 
 and finally, executing it :
 
-![Schema2](/imgs/blog/shellcode_schema2.png)
+![Schema2](/imgs/blog/shellcode_schema2.webp)
 
 ### Prerequisites
 
@@ -277,4 +277,4 @@ fn main() {
 ```
 
 And you can see that our shellcode is executed like so
-![shellcode execution](/imgs/blog/shellcode_final_screen.png)
+![shellcode execution](/imgs/blog/shellcode_final_screen.webp)

@@ -16,6 +16,9 @@
 
   let { data }: { data: PageData } = $props();
 
+  const currentLocale = getLocale();
+  const baseUrl = 'https://antoineousselin.fr';
+
   const location: [number, number] = [3.0573, 50.6320];
 
   const marker: MapMarker = {
@@ -83,8 +86,6 @@
   let mounted = $state(false);
   let prefersReducedMotion = $state(false);
 
-  const currentLocale = getLocale();
-
   let displayProjects = $derived.by(() => {
     const localeProjects = data.projects.filter(p => p.locale === currentLocale);
 
@@ -111,6 +112,22 @@
   });
 </script>
 
+<svelte:head>
+  <title>{m.seo_home_title()}</title>
+  <meta name="description" content={m.seo_home_description()} />
+
+  <link rel="canonical" href={baseUrl} />
+
+  <meta property="og:title" content={m.seo_home_title()} />
+  <meta property="og:description" content={m.seo_home_description()} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={baseUrl} />
+  <meta property="og:locale" content={currentLocale === 'fr' ? 'fr_FR' : 'en_US'} />
+
+  <link rel="alternate" hreflang="en" href="{baseUrl}/en" />
+  <link rel="alternate" hreflang="fr" href="{baseUrl}/fr" />
+  <link rel="alternate" hreflang="x-default" href={baseUrl} />
+</svelte:head>
 
 <div class="my-2 md:my-10">
   {#if mounted}
@@ -140,7 +157,7 @@
     >
       <div class="flex flex-col">
         <div class="text-mocha-subtext0 font-bold text-xl">{m.hi_text()}</div>
-        <div class="text-mocha-blue font-bold text-4xl">Antoine Ousselin</div>
+        <h1 class="text-mocha-blue font-bold text-4xl">Antoine Ousselin</h1>
         <div class="mt-2">
           {m.whoami({age})}<br />
           {m.whatido()}

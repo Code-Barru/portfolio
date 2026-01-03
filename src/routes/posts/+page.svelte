@@ -13,6 +13,7 @@
 	let { data } = $props();
 
 	const currentLocale = getLocale();
+	const baseUrl = 'https://antoineousselin.fr';
 
 	let searchQuery = $state('');
 
@@ -66,8 +67,20 @@
 </script>
 
 <svelte:head>
-	<title>Blog Posts</title>
-	<meta name="description" content="Browse all blog posts" />
+	<title>{m.seo_blog_title()}</title>
+	<meta name="description" content={m.seo_blog_description()} />
+
+	<link rel="canonical" href="{baseUrl}/posts" />
+
+	<meta property="og:title" content={m.seo_blog_title()} />
+	<meta property="og:description" content={m.seo_blog_description()} />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="{baseUrl}/posts" />
+	<meta property="og:locale" content={currentLocale === 'fr' ? 'fr_FR' : 'en_US'} />
+
+	<link rel="alternate" hreflang="en" href="{baseUrl}/en/posts" />
+	<link rel="alternate" hreflang="fr" href="{baseUrl}/fr/posts" />
+	<link rel="alternate" hreflang="x-default" href="{baseUrl}/posts" />
 </svelte:head>
 
 <div class="py-8">

@@ -18,11 +18,11 @@ On va lire un bout de shellcode depuis un fichier, un serveur distant ou depuis 
 
 L'exécution de shellcode marche en allouant de la mémoire dans le programme actuel et y écrire le shellcode :
 
-![Schema1](/imgs/blog/shellcode_schema1.png)
+![Schema1](/imgs/blog/shellcode_schema1.webp)
 
 puis ensuite, on l'exécute :
 
-![Schema2](/imgs/blog/shellcode_schema2.png)
+![Schema2](/imgs/blog/shellcode_schema2.webp)
 
 ## Pré-requis
 
@@ -277,4 +277,4 @@ fn main() {
 ```
 
 Comme on peut le voir, notre shellcode est éxécuté !
-![shellcode execution](/imgs/blog/shellcode_final_screen.png)
+![shellcode execution](/imgs/blog/shellcode_final_screen.webp)

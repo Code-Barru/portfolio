@@ -47,5 +47,22 @@
   "privacy_section2_language": "Browser language preference",
   "privacy_section2_not_collected": "What I DON'T collect: IP addresses (not stored), cookies (no third-party cookies), or any personally identifiable information.",
   "privacy_section3_title": "Will I ever share the collected information?",
-  "privacy_section3_content": "No. Never had. Never will. This data is used solely for personal analytics to understand which pages are visited, when and by who. It's not sold, shared, or used for commercial purposes."
+  "privacy_section3_content": "No. Never had. Never will. This data is used solely for personal analytics to understand which pages are visited, when and by who. It's not sold, shared, or used for commercial purposes.",
+
+  "seo_home_title": "Antoine Ousselin - Backend & Offensive Software Developer",
+  "seo_home_description": "23-year-old backend and offensive software developer from Lille, France, specializing in Rust, TypeScript, and SvelteKit. Passionate about building fast, secure applications and offensive security research.",
+  "seo_projects_title": "Projects - Antoine Ousselin",
+  "seo_projects_description": "Browse my featured projects in Rust, TypeScript, and offensive security. Explore backend systems, web applications, and security research tools I've built.",
+  "seo_blog_title": "Blog Posts - Antoine Ousselin",
+  "seo_blog_description": "Read my latest blog posts about software development, Rust programming, offensive security, and technical deep-dives into systems programming.",
+  "seo_contact_title": "Contact - Antoine Ousselin",
+  "seo_contact_description": "Get in touch with me for job opportunities, collaborations, or just to say hello. I'm always open to interesting projects and conversations.",
+  "seo_privacy_title": "Privacy Policy - Antoine Ousselin",
+  "seo_privacy_description": "Learn about data collection and privacy practices on this website. I use self-hosted Umami analytics with minimal data collection and no tracking cookies.",
+
+  "error_404_title": "404 - Page Not Found",
+  "error_404_description": "The page you're looking for doesn't exist.",
+  "error_generic_title": "Error",
+  "error_generic_description": "An unexpected error occurred.",
+  "error_back_home": "Back to home"
 }

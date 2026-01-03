@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { CircleCheck, CircleX, LoaderCircle, Send } from '@lucide/svelte';
   import { m } from "$lib/paraglide/messages";
+	import { getLocale } from '$lib/paraglide/runtime';
+
+	const currentLocale = getLocale();
+	const baseUrl = 'https://antoineousselin.fr';
 
 	let name = $state('');
 	let email = $state('');
@@ -9,7 +13,20 @@
 </script>
 
 <svelte:head>
-	<title>Antoine's chronicles - Offensive software enjoyer - Contact</title>
+	<title>{m.seo_contact_title()}</title>
+	<meta name="description" content={m.seo_contact_description()} />
+
+	<link rel="canonical" href="{baseUrl}/contact" />
+
+	<meta property="og:title" content={m.seo_contact_title()} />
+	<meta property="og:description" content={m.seo_contact_description()} />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="{baseUrl}/contact" />
+	<meta property="og:locale" content={currentLocale === 'fr' ? 'fr_FR' : 'en_US'} />
+
+	<link rel="alternate" hreflang="en" href="{baseUrl}/en/contact" />
+	<link rel="alternate" hreflang="fr" href="{baseUrl}/fr/contact" />
+	<link rel="alternate" hreflang="x-default" href="{baseUrl}/contact" />
 </svelte:head>
 
 <div class="py-8">

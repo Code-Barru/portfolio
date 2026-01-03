@@ -15,7 +15,8 @@ export const GET: RequestHandler = async () => {
 		{ url: '', changefreq: 'daily', priority: 1.0 },
 		{ url: 'posts', changefreq: 'daily', priority: 0.8 },
 		{ url: 'projects', changefreq: 'weekly', priority: 0.8 },
-		{ url: 'contact', changefreq: 'monthly', priority: 0.6 }
+		{ url: 'contact', changefreq: 'monthly', priority: 0.6 },
+		{ url: 'privacy', changefreq: 'yearly', priority: 0.3 }
 	];
 
 	const locales = ['en', 'fr'];
@@ -23,7 +24,8 @@ export const GET: RequestHandler = async () => {
 		{ url: `${locale}`, changefreq: 'daily', priority: 1.0 },
 		{ url: `${locale}/posts`, changefreq: 'daily', priority: 0.8 },
 		{ url: `${locale}/projects`, changefreq: 'weekly', priority: 0.8 },
-		{ url: `${locale}/contact`, changefreq: 'monthly', priority: 0.6 }
+		{ url: `${locale}/contact`, changefreq: 'monthly', priority: 0.6 },
+		{ url: `${locale}/privacy`, changefreq: 'yearly', priority: 0.3 }
 	]);
 
 	const postPages = [
