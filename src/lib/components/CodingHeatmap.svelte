@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { m } from '$lib/paraglide/messages';
   import { getLocale } from '$lib/paraglide/runtime';
 
   const HEATMAP_URL =
@@ -81,8 +82,9 @@
 </script>
 
 <section>
+  <h2 class="text-3xl font-bold text-mocha-blue mb-4">{m.coding_activity()}</h2>
   <div
-    class="overflow-x-auto bg-mocha-base p-2"
+    class="overflow-x-auto bg-mocha-base border border-mocha-surface1 border-t-mocha-surface2 rounded-md shadow-mocha-crust shadow-sm p-4"
   >
     {#if loading}
       <div class="flex items-center justify-center h-[161px]">
