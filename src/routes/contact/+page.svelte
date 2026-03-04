@@ -125,7 +125,7 @@
 		<button
 			type="submit"
 			disabled={status === 'loading'}
-			class="bg-mocha-blue border border-mocha-sapphire border-t-mocha-sky hover:bg-mocha-sapphire active:bg-mocha-sky text-mocha-base w-full cursor-pointer rounded-md px-4 py-2 shadow-sm shadow-mocha-crust transition-colors duration-200 focus:ring-0 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+			class="bg-mocha-blue/80 border border-mocha-sapphire border-t-mocha-sky hover:bg-mocha-blue/90 active:bg-mocha-blue text-mocha-base w-full cursor-pointer rounded-md px-4 py-2 shadow-sm shadow-mocha-crust transition-colors duration-200 focus:ring-0 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
 		>
 			<div class="flex items-center justify-center gap-1">
 				{#if status === 'loading'}
