@@ -12,6 +12,7 @@
   import { getLocale } from '$lib/paraglide/runtime';
 	import { FileText, Mail } from '@lucide/svelte';
 	import PlaceHolder from '$lib/components/PlaceHolder.svelte';
+	import CodingHeatmap from '$lib/components/CodingHeatmap.svelte';
   import { staggerFadeIn } from '$lib/transitions';
 
   let { data }: { data: PageData } = $props();
@@ -129,7 +130,7 @@
   <link rel="alternate" hreflang="x-default" href={baseUrl} />
 </svelte:head>
 
-<div class="my-2 md:my-10">
+<div class="my-2 md:mt-10 md:mb-3">
   {#if mounted}
   <div
     class="relative w-full mx-auto h-40 md:h-60 overflow-hidden"
@@ -198,6 +199,7 @@
       </div>
     </div>
     {/if}
+
     <!-- {#if mounted} -->
     <!-- <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 300 }}> -->
     <!--   <PlaceHolder customClass="hidden md:flex" width={120} height={160} /> -->
@@ -205,14 +207,21 @@
     <!-- </div> -->
     <!-- {/if} -->
   </div>
+  
   {#if mounted}
-  <div class="relative mt-6 md:mt-0" in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 450 }}>
+  <div class="relative mt-6 md:mt-0" in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 350 }}>
     <Education />
   </div>
   {/if}
 
+  {#if mounted}
+    <div class="mt-8" in:staggerFadeIn={{duration: 1000, delay: prefersReducedMotion ? 0 : 500 }}>
+      <CodingHeatmap />
+    </div>
+  {/if}
+
   {#if mounted && displayProjects.length > 0}
-  <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 600 }}>
+  <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 650 }}>
     <section class="mt-12">
       <div class="mb-6 flex items-center justify-between">
         <h2 class="text-3xl font-bold text-mocha-blue">{m.projects_name()}</h2>
@@ -233,7 +242,7 @@
   {/if}
 
   {#if mounted && displayPosts.length > 0}
-  <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 750 }}>
+  <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 800 }}>
     <section class="mt-12">
       <div class="mb-6 flex items-center justify-between">
         <h2 class="text-3xl font-bold text-mocha-blue">{m.blog_name()}</h2>
