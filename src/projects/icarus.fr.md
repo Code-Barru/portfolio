@@ -1,6 +1,6 @@
 ---
 title: Icarus v2
-featured: true
+featured: false
 date: '2025-09-07'
 description: Projet de fin d'étude, platfome d'aide pour les pentesters qui génère des rapports automatique.
 tags:

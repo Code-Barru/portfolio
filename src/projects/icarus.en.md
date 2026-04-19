@@ -1,6 +1,6 @@
 ---
 title: Icarus v2
-featured: true
+featured: false
 date: '2025-09-07'
 description: End of School project, pentest helper platform, auto generate rapports.
 tags:
