@@ -1,5 +1,5 @@
 ---
-title: Headway
+title: Gapline
 featured: true
 date: '2026-04-19'
 description: Chaîne d'outils GTFS tout-en-un — CLI Rust + SaaS collaborative bâties sur un cœur partagé pour les équipes transit.
@@ -9,10 +9,10 @@ tags:
   - cli
   - tool
   - saas
-demoUrl: https://hdway.dev
+demoUrl: https://gapline.dev
 status: 'in-progress'
 ---
-Headway est une plateforme de données transit à deux produits bâtie autour d'un cœur Rust partagé : une CLI open-source pour les workflows GTFS locaux, et une SaaS collaborative (en cours) qui traite le GTFS comme un produit vivant — versionné, reviewable, simulable face à la réalité d'exploitation.
+Gapline est une plateforme de données transit à deux produits bâtie autour d'un cœur Rust partagé : une CLI open-source pour les workflows GTFS locaux, et une SaaS collaborative (en cours) qui traite le GTFS comme un produit vivant — versionné, reviewable, simulable face à la réalité d'exploitation.
 ## Pourquoi ce projet ?
 Le GTFS (General Transit Feed Specification) est le standard derrière toutes les applis de transport en commun — calculateurs d'itinéraires, cartes, afficheurs temps réel. Pourtant l'outillage que les opérateurs et data engineers utilisent pour produire, valider et maintenir ces feeds est resté coincé dans le passé :
 1. Un écosystème fragmenté — un outil pour la validation, un autre pour l'édition, un troisième pour le merge, un quatrième pour le diff
@@ -21,9 +21,9 @@ Le GTFS (General Transit Feed Specification) est le standard derrière toutes le
 4. Aucun versioning, aucun workflow de review, aucune piste d'audit entre révisions — on écrase les feeds sur place comme en 2005
 5. Aucun moyen de simuler l'impact d'un changement de réseau avant de le publier, et aucun pont entre l'horaire théorique et ce qui se passe vraiment en exploitation
 6. Des scripts maison qui cassent à chaque edge case que la spec définit
-Headway écrase ce bazar dans une plateforme unique et cohérente — local-first quand tu as besoin de confidentialité et de vitesse, collaborative quand tu as besoin de traçabilité et de simulation.
+Gapline écrase ce bazar dans une plateforme unique et cohérente — local-first quand tu as besoin de confidentialité et de vitesse, collaborative quand tu as besoin de traçabilité et de simulation.
 ## CLI — shippée
-La CLI open-source est distribuée via `cargo install headway` et utilise des sous-commandes à la `git` (`validate`, `read`, `create`, `update`, `delete`, `run`).
+La CLI open-source est distribuée via `cargo install gapline` et utilise des sous-commandes à la `git` (`validate`, `read`, `create`, `update`, `delete`, `run`).
 - **Moteur de validation exhaustif** : un pipeline à 6 sections avec gates et plus de 60 règles couvrant la structure des fichiers, le formatage CSV (RFC 4180, UTF-8 avec BOM), le typage des champs, les clés étrangères, l'unicité des clés primaires, et les règles sémantiques comme la monotonie des `stop_sequence` ou la détection de chevauchement de `frequencies`. Parsing et exécution des règles en parallèle via `rayon`, avec barres de progression par section.
 - **17 types de fichiers GTFS parsés** : agency, stops, routes, trips, stop_times, calendar, calendar_dates, shapes, frequencies, transfers, pathways, levels, feed_info, fare_attributes, fare_rules, translations, attributions.
 - **Intégrité référentielle garantie** : un index inverse bidirectionnel couvrant les 12+ relations FK du GTFS. Les opérations CRUD qui briseraient l'intégrité sont rejetées avec la chaîne de dépendances complète ; les suppressions en cascade exigent une confirmation explicite listant chaque enregistrement impacté.
@@ -43,4 +43,4 @@ La plateforme hébergée (propriétaire) est construite en six phases au-dessus 
 - **Backend** : Axum + SQLx + JWT, PostgreSQL avec l'extension PostGIS pour les requêtes spatiales.
 - **Frontend** : SPA SvelteKit (`adapter-static`) servie par Axum avec fallback SPA, MapLibre GL pour la cartographie interactive (vues réseau, isochrones, heatmaps de couverture).
 - **Stratégie de double licence** : MIT sur le core pour que l'écosystème puisse embarquer le moteur de validation n'importe où ; GPL sur la CLI pour garder les améliorations utilisateur ouvertes ; la plateforme hébergée reste propriétaire comme différenciation commerciale.
-Pour en savoir plus, cliquer sur ce [lien](https://github.com/Code-Barru/headway).
+Pour en savoir plus, cliquer sur ce [lien](https://github.com/Code-Barru/gapline).
