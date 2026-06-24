@@ -214,11 +214,11 @@
   </div>
   {/if}
 
-  {#if mounted}
-    <div class="mt-8" in:staggerFadeIn={{duration: 1000, delay: prefersReducedMotion ? 0 : 500 }}>
-      <CodingHeatmap />
-    </div>
-  {/if}
+  <!-- {#if mounted} -->
+  <!--   <div class="mt-8" in:staggerFadeIn={{duration: 1000, delay: prefersReducedMotion ? 0 : 500 }}> -->
+  <!--     <CodingHeatmap /> -->
+  <!--   </div> -->
+  <!-- {/if} -->
 
   {#if mounted && displayProjects.length > 0}
   <div in:staggerFadeIn={{ duration: 1000, delay: prefersReducedMotion ? 0 : 650 }}>
