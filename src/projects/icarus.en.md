@@ -8,8 +8,8 @@ tags:
   - c2
   - maldev
   - devops
-demoUrl: https://icarus-cyber.fr
-status: 'in-progress'
+github: 'https://github.com/Code-Barru/icarus-esp'
+status: 'archived'
 ---
 
 Icarus is a collaborative pentest tool looking to streamline rapports generations and transparency towards clients.
