@@ -13,6 +13,8 @@ from pydantic import BaseModel, EmailStr, Field
 # ---------------------------------------------------------------------------
 NTFY_URL = os.getenv("NTFY_URL", "http://ntfy")
 NTFY_TOPIC = os.getenv("NTFY_TOPIC", "contact-portfolio")
+# Access token when the ntfy server runs with auth (auth-default-access: deny-all)
+NTFY_TOKEN = os.getenv("NTFY_TOKEN", "")
 LISTEN_PORT = int(os.getenv("LISTEN_PORT", "8000"))
 
 # Rate-limiting: max requests per IP within the time window (seconds)
@@ -110,15 +112,19 @@ async def contact(body: ContactRequest, request: Request):
 
     try:
         assert _http_client is not None
+        headers = {
+            "Title": f"Contact: {body.name}",
+            "Tags": "incoming_envelope",
+            "Priority": "high",
+            "Actions": f"view, Reply via email, mailto:{body.email}",
+        }
+        if NTFY_TOKEN:
+            headers["Authorization"] = f"Bearer {NTFY_TOKEN}"
+
         resp = await _http_client.post(
             ntfy_endpoint,
             content=ntfy_body.encode("utf-8"),
-            headers={
-                "Title": f"Contact: {body.name}",
-                "Tags": "incoming_envelope",
-                "Priority": "high",
-                "Actions": f"view, Reply via email, mailto:{body.email}",
-            },
+            headers=headers,
         )
         resp.raise_for_status()
     except httpx.HTTPError as exc:

@@ -30,7 +30,7 @@ npm run lint             # Prettier check
 - **Islands**: Svelte 5 (runes mode) via @astrojs/svelte — only interactive parts hydrate
 - **Styling**: Tailwind CSS v4 (`@tailwindcss/vite`), Catppuccin Mocha theme in `src/styles/global.css` (`@theme` block)
 - **Markdown**: Astro content collections + built-in Shiki (`catppuccin-mocha`), custom `remarkAlerts` plugin (GitHub-style `> [!NOTE]` callouts)
-- **Deploy**: Docker (nginx) via `compose.yml`; CI builds images in `.github/workflows/ci.yml`
+- **Deploy**: Docker (nginx) via `compose.yml`; CI builds images in `.forgejo/workflows/ci.yml` (Forgejo Actions)
 
 ### i18n — path-based
 

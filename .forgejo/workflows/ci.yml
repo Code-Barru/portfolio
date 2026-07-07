@@ -8,9 +8,8 @@ on:
 
 jobs:
   build-push:
+    # Adjust to your Forgejo runner's label if it differs
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     strategy:
       matrix:
@@ -27,10 +26,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: https://github.com/docker/setup-buildx-action@v3
 
       - name: Log in to registry
-        uses: docker/login-action@v3
+        uses: https://github.com/docker/login-action@v3
         with:
           registry: ${{ secrets.REGISTRY_ADDRESS }}
           username: ${{ secrets.REGISTRY_USERNAME }}
@@ -38,7 +37,7 @@ jobs:
 
       - name: Extract metadata (tags, labels)
         id: meta
-        uses: docker/metadata-action@v5
+        uses: https://github.com/docker/metadata-action@v5
         with:
           images: ${{ secrets.REGISTRY_ADDRESS }}/${{ matrix.name }}
           tags: |
@@ -48,14 +47,16 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push
-        uses: docker/build-push-action@v6
+        uses: https://github.com/docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # registry-backed layer cache: the GitHub Actions cache backend
+          # (type=gha) is unreliable on Forgejo runners
+          cache-from: type=registry,ref=${{ secrets.REGISTRY_ADDRESS }}/${{ matrix.name }}:buildcache
+          cache-to: type=registry,ref=${{ secrets.REGISTRY_ADDRESS }}/${{ matrix.name }}:buildcache,mode=max
           build-args: |
             PUBLIC_MAPTILER_API_KEY=${{ secrets.PUBLIC_MAPTILER_API_KEY }}
