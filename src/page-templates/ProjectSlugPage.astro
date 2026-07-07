@@ -1,0 +1,217 @@
+---
+import { render } from 'astro:content';
+import { Calendar, Github, ExternalLink, Tag as TagIcon, ArrowLeft, Star } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { localizePath, type Locale } from '../i18n';
+import type { ProjectItem } from '../lib/collections';
+
+interface Props {
+	locale: Locale;
+	project: ProjectItem;
+	prev: ProjectItem | null;
+	next: ProjectItem | null;
+}
+
+const { locale, project, prev, next } = Astro.props;
+const { Content } = await render(project.entry);
+
+const formatDate = (date: Date) =>
+	date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric'
+	});
+
+const projectsPath = localizePath('/projects', locale);
+const site = Astro.site!.href.replace(/\/$/, '');
+
+const jsonLd = [
+	{
+		'@type': 'SoftwareSourceCode',
+		name: project.title,
+		description: project.description,
+		datePublished: project.date.toISOString().split('T')[0],
+		inLanguage: locale,
+		keywords: project.tags.join(', '),
+		...(project.github ? { codeRepository: project.github } : {}),
+		author: { '@type': 'Person', name: 'Antoine Ousselin', url: site }
+	},
+	{
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: 'Home', item: site + localizePath('/', locale) },
+			{ '@type': 'ListItem', position: 2, name: 'Projects', item: site + projectsPath },
+			{
+				'@type': 'ListItem',
+				position: 3,
+				name: project.title,
+				item: site + localizePath(`/projects/${project.slug}`, locale)
+			}
+		]
+	}
+];
+---
+
+<BaseLayout {locale}>
+	<Fragment slot="head">
+		<SEO
+			title={project.title}
+			description={project.description}
+			path={`/projects/${project.slug}`}
+			{locale}
+			type="article"
+			publishedTime={project.date}
+			tags={project.tags}
+			image={project.coverImage}
+		/>
+		<JsonLd schema={jsonLd} />
+	</Fragment>
+
+	<div class="py-8">
+		<a
+			href={projectsPath}
+			class="mb-6 inline-flex items-center gap-2 text-mocha-blue transition-colors hover:text-mocha-sapphire"
+		>
+			<ArrowLeft size={18} />
+			Back to projects
+		</a>
+
+		<article>
+			<header class="mb-8">
+				<div class="mb-4 flex items-start justify-between">
+					<h1 class="text-4xl font-bold text-mocha-text md:text-5xl">
+						{project.title}
+					</h1>
+					{
+						project.featured && (
+							<div class="flex items-center gap-1 rounded-full bg-mocha-yellow px-3 py-1 text-sm font-bold text-mocha-base">
+								<Star size={14} fill="currentColor" />
+								Featured
+							</div>
+						)
+					}
+				</div>
+
+				<div class="mb-4 flex flex-wrap items-center gap-4 text-sm text-mocha-subtext0">
+					<span class="flex items-center gap-1">
+						<Calendar size={16} />
+						{formatDate(project.date)}
+					</span>
+					{
+						project.status && (
+							<span class="rounded-full bg-mocha-surface0 px-3 py-1 capitalize">
+								{project.status.replace('-', ' ')}
+							</span>
+						)
+					}
+				</div>
+				<div class="mb-6 flex gap-4">
+					{
+						project.github && (
+							<a
+								href={project.github}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="flex items-center gap-2 rounded-md border border-mocha-surface1 border-t-mocha-surface2 bg-mocha-base px-4 py-2 text-mocha-text shadow-sm shadow-mocha-crust transition-colors duration-200 hover:border-mocha-blue active:bg-mocha-surface0"
+							>
+								<Github size={18} />
+								View Source
+							</a>
+						)
+					}
+					{
+						project.demoUrl && (
+							<a
+								href={project.demoUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="flex items-center gap-2 rounded-md border border-mocha-sapphire border-t-mocha-sky bg-mocha-blue px-4 py-2 text-mocha-base shadow-sm shadow-mocha-crust transition-colors duration-200 hover:bg-mocha-sapphire active:bg-mocha-sky"
+							>
+								<ExternalLink size={18} />
+								Live Demo
+							</a>
+						)
+					}
+				</div>
+
+				{
+					project.coverImage && (
+						<img
+							src={project.coverImage}
+							alt={project.title}
+							loading="lazy"
+							width="800"
+							height="400"
+							class="mb-6 h-80 w-full rounded-lg object-cover"
+						/>
+					)
+				}
+
+				{
+					project.tags.length > 0 && (
+						<div class="mb-4 flex flex-wrap gap-2">
+							<TagIcon size={16} class="mt-1 text-mocha-subtext0" />
+							{project.tags.map((tag) => (
+								<a
+									href={`${projectsPath}?tags=${tag}`}
+									class="rounded-full border border-mocha-surface1 border-t-mocha-surface2 bg-mocha-base px-3 py-1 text-sm text-mocha-text shadow-sm shadow-mocha-crust transition-colors duration-200 hover:border-mocha-blue active:bg-mocha-surface0"
+								>
+									{tag}
+								</a>
+							))}
+						</div>
+					)
+				}
+			</header>
+
+			<div class="markdown-content mt-8 rounded-lg bg-mocha-crust p-6 md:p-8">
+				<Content />
+			</div>
+		</article>
+
+		<!-- Previous/Next Navigation -->
+		<nav class="mt-12 flex justify-between border-t border-mocha-surface1 pt-8">
+			{
+				prev ? (
+					<a
+						href={localizePath(`/projects/${prev.slug}`, locale)}
+						class="group flex max-w-[45%] flex-col gap-1 text-left transition-colors"
+					>
+						<span class="text-xs text-mocha-subtext0">← Previous</span>
+						<span class="text-sm font-semibold text-mocha-text transition-colors group-hover:text-mocha-blue">
+							{prev.title}
+						</span>
+					</a>
+				) : (
+					<div />
+				)
+			}
+
+			{
+				next && (
+					<a
+						href={localizePath(`/projects/${next.slug}`, locale)}
+						class="group flex max-w-[45%] flex-col gap-1 text-right transition-colors"
+					>
+						<span class="text-xs text-mocha-subtext0">Next →</span>
+						<span class="text-sm font-semibold text-mocha-text transition-colors group-hover:text-mocha-blue">
+							{next.title}
+						</span>
+					</a>
+				)
+			}
+		</nav>
+
+		<div class="mt-8 border-t border-mocha-surface1 pt-6">
+			<a
+				href={projectsPath}
+				class="inline-flex items-center gap-2 text-mocha-blue transition-colors hover:text-mocha-sapphire"
+			>
+				<ArrowLeft size={18} />
+				Back to all projects
+			</a>
+		</div>
+	</div>
+</BaseLayout>

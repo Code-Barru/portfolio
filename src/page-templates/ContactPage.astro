@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import ContactForm from '../components/islands/ContactForm.svelte';
+import { useT, type Locale } from '../i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useT(locale);
+
+const labels = {
+	name: t('contact_name'),
+	email: t('contact_email'),
+	textarea: t('contact_textarea'),
+	send: t('contact_send'),
+	sending: t('contact_sending'),
+	success: t('contact_success'),
+	error: t('contact_error')
+};
+---
+
+<BaseLayout {locale}>
+	<Fragment slot="head">
+		<SEO
+			title={t('seo_contact_title')}
+			description={t('seo_contact_description')}
+			path="/contact"
+			{locale}
+		/>
+	</Fragment>
+
+	<div class="py-8">
+		<h1 class="mb-8 text-4xl font-bold text-mocha-blue">{t('nav_contact')}</h1>
+		<ContactForm client:visible {labels} />
+	</div>
+</BaseLayout>

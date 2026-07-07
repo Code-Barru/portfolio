@@ -1,0 +1,80 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import type { Locale } from '../i18n';
+
+interface Props {
+	locale: Locale;
+	/** Fade the footer in after the home-page stagger finishes. */
+	footerStagger?: boolean;
+}
+
+const { locale, footerStagger = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="/favicon.png" />
+		<link
+			rel="preload"
+			href="/fonts/rubik.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
+		/>
+		<slot name="head" />
+		<ClientRouter />
+	</head>
+	<body class="bg-mocha-base text-mocha-text">
+		<div class="mx-auto flex min-h-screen flex-col px-3 md:max-w-3xl md:px-8">
+			<Navbar {locale} />
+			<main class="flex-grow" transition:name="page" transition:animate="none">
+				<slot />
+			</main>
+			<div
+				class:list={[footerStagger && 'stagger']}
+				style={footerStagger ? '--d: 1000ms' : undefined}
+			>
+				<Footer {locale} />
+			</div>
+		</div>
+
+		<script>
+			// Directional view transitions: mirror the SvelteKit route-order logic.
+			const routeOrder: Record<string, number> = {
+				'/': 1,
+				'/projects': 2,
+				'/posts': 3,
+				'/contact': 4
+			};
+
+			function basePath(pathname: string): string {
+				const deLocalized = pathname.replace(/^\/fr(?=\/|$)/, '') || '/';
+				const match = deLocalized.match(/^\/(projects|posts|contact)/);
+				return match ? match[0] : '/';
+			}
+
+			let navDirection = 'right';
+
+			document.addEventListener('astro:before-preparation', (event) => {
+				const e = event as unknown as { from: URL; to: URL };
+				const isSlug = /^\/(fr\/)?(projects|posts)\/./.test(e.to.pathname);
+				const from = routeOrder[basePath(e.from.pathname)] ?? 1;
+				const to = routeOrder[basePath(e.to.pathname)] ?? 1;
+				navDirection = isSlug ? 'bottom' : to < from ? 'left' : 'right';
+				document.documentElement.dataset.nav = navDirection;
+			});
+
+			// The swap replaces <html> attributes with the new page's, dropping data-nav
+			// right before the view-transition animation runs — re-apply it.
+			document.addEventListener('astro:after-swap', () => {
+				document.documentElement.dataset.nav = navDirection;
+			});
+		</script>
+	</body>
+</html>

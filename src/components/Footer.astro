@@ -1,0 +1,22 @@
+---
+import { localizePath, type Locale } from '../i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<hr class="mt-8 border-mocha-surface0 dark:border-mocha-surface0" />
+<div class="my-2 flex flex-row justify-end gap-2 text-sm text-mocha-subtext0">
+	© 2025-2026
+	<a href={localizePath('/', locale)} class="transition-colors duration-200 hover:text-mocha-blue"
+		>antoineousselin.fr</a
+	>
+	|
+	<a
+		href={localizePath('/privacy', locale)}
+		class="transition-colors duration-200 hover:text-mocha-blue">privacy policy</a
+	>
+</div>

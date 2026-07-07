@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import ProjectsExplorer from '../components/islands/ProjectsExplorer.svelte';
+import { getProjects, extractTags, toProjectMeta } from '../lib/collections';
+import { useT, type Locale } from '../i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useT(locale);
+
+const projects = (await getProjects(locale)).map(toProjectMeta);
+const tags = extractTags(projects);
+
+const labels = {
+	search: t('projects_search'),
+	featuredOnly: t('projects_featured_only'),
+	featured: t('projects_featured'),
+	filterByTags: t('projects_filter_by_tags'),
+	found: t('projects_found'),
+	foundPlural: t('projects_found_plural'),
+	readMore: t('projects_read_more')
+};
+---
+
+<BaseLayout {locale}>
+	<Fragment slot="head">
+		<SEO
+			title={t('seo_projects_title')}
+			description={t('seo_projects_description')}
+			path="/projects"
+			{locale}
+		/>
+	</Fragment>
+
+	<div class="py-8">
+		<h1 class="mb-8 text-4xl font-bold text-mocha-blue">{t('projects_name')}</h1>
+		<ProjectsExplorer client:load {projects} {tags} {locale} {labels} />
+	</div>
+</BaseLayout>

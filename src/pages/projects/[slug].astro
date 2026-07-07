@@ -1,0 +1,18 @@
+---
+import ProjectSlugPage from '../../page-templates/ProjectSlugPage.astro';
+import { getProjects } from '../../lib/collections';
+
+export async function getStaticPaths() {
+	const projects = await getProjects('en');
+	return projects.map((project, i) => ({
+		params: { slug: project.slug },
+		props: {
+			project,
+			prev: projects[i - 1] ?? null,
+			next: projects[i + 1] ?? null
+		}
+	}));
+}
+---
+
+<ProjectSlugPage locale="en" {...Astro.props} />

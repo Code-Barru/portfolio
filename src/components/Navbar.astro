@@ -1,0 +1,35 @@
+---
+import LangSwitch from './islands/LangSwitch.svelte';
+import { localizePath, useT, type Locale } from '../i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useT(locale);
+
+const links = [
+	{ label: t('nav_home'), link: localizePath('/', locale) },
+	{ label: t('nav_projects'), link: localizePath('/projects', locale) },
+	{ label: t('nav_blog'), link: localizePath('/posts', locale) },
+	{ label: t('nav_contact'), link: localizePath('/contact', locale) }
+];
+---
+
+<header class="sticky top-0 z-50 -mx-1 my-6 bg-mocha-base" transition:persist="navbar">
+	<nav class="flex items-center justify-between">
+		<ul class="flex gap-4 sm:gap-8">
+			{
+				links.map((item) => (
+					<li class="transition-colors duration-200 hover:text-mocha-blue">
+						<a href={item.link}>{item.label}</a>
+					</li>
+				))
+			}
+		</ul>
+		<div class="ml-auto flex flex-row items-center gap-2">
+			<LangSwitch client:load currentLocale={locale} />
+		</div>
+	</nav>
+</header>

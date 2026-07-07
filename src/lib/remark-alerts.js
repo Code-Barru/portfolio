@@ -29,33 +29,50 @@ export function remarkAlerts() {
 			const firstParagraph = node.children[0];
 			const firstChild = firstParagraph.children[0];
 
-			if (firstChild.type !== 'linkReference') {
-				return;
-			}
+			// Old remark (mdsvex) parsed "[!NOTE]" as a linkReference; remark 15+
+			// (Astro) keeps it as plain text. Handle both shapes.
+			let alertTypeRaw = null;
 
-			const identifier = firstChild.identifier.toLowerCase();
-			if (!identifier.startsWith('!')) {
-				return;
-			}
+			if (firstChild.type === 'linkReference') {
+				const identifier = firstChild.identifier.toLowerCase();
+				if (!identifier.startsWith('!')) {
+					return;
+				}
+				alertTypeRaw = identifier.slice(1).toUpperCase();
+				if (!alertTypes[alertTypeRaw]) {
+					return;
+				}
 
-			const alertTypeRaw = identifier.slice(1).toUpperCase();
-			if (!alertTypes[alertTypeRaw]) {
+				firstParagraph.children.shift();
+
+				if (firstParagraph.children.length > 0 && firstParagraph.children[0].type === 'text') {
+					const textNode = firstParagraph.children[0];
+					textNode.value = textNode.value.replace(/^\n+/, '');
+
+					if (textNode.value.trim() === '' && firstParagraph.children.length === 1) {
+						node.children.shift();
+					}
+				}
+			} else if (firstChild.type === 'text') {
+				const match = firstChild.value.match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*\n?/);
+				if (!match) {
+					return;
+				}
+				alertTypeRaw = match[1];
+
+				firstChild.value = firstChild.value.slice(match[0].length);
+				if (firstChild.value === '') {
+					firstParagraph.children.shift();
+					if (firstParagraph.children.length === 0) {
+						node.children.shift();
+					}
+				}
+			} else {
 				return;
 			}
 
 			const alertType = alertTypes[alertTypeRaw];
 			const title = alertTypeRaw.charAt(0) + alertTypeRaw.slice(1).toLowerCase();
-
-			firstParagraph.children.shift();
-
-			if (firstParagraph.children.length > 0 && firstParagraph.children[0].type === 'text') {
-				const textNode = firstParagraph.children[0];
-				textNode.value = textNode.value.replace(/^\n+/, '');
-
-				if (textNode.value.trim() === '' && firstParagraph.children.length === 1) {
-					node.children.shift();
-				}
-			}
 
 			node.data = {
 				hName: 'div',

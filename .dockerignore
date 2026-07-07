@@ -3,9 +3,8 @@ node_modules
 npm-debug.log*
 
 # Build output
-build
-.svelte-kit
 dist
+.astro
 
 # Git
 .git
@@ -28,10 +27,10 @@ logs
 # Docker
 Dockerfile
 .dockerignore
-docker-compose.yml
+compose.yml
 
 # Other
 README.md
 .prettierrc
-.eslintrc*
 tsconfig.json
+services

@@ -1,0 +1,425 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@theme {
+	--font-display: 'Rubik';
+	--color-mocha-rosewater: #f5e0dc;
+	--color-mocha-flamingo: #f2cdcd;
+	--color-mocha-pink: #f5c2e7;
+	--color-mocha-mauve: #cba6f7;
+	--color-mocha-red: #f38ba8;
+	--color-mocha-maroon: #eba0ac;
+	--color-mocha-peach: #fab387;
+	--color-mocha-yellow: #f9e2af;
+	--color-mocha-green: #a6e3a1;
+	--color-mocha-teal: #94e2d5;
+	--color-mocha-sky: #89dceb;
+	--color-mocha-sapphire: #74c7ec;
+	--color-mocha-blue: #89b4fa;
+	--color-mocha-lavender: #b4befe;
+	--color-mocha-text: #cdd6f4;
+	--color-mocha-subtext1: #bac2de;
+	--color-mocha-subtext0: #a6adc8;
+	--color-mocha-overlay2: #9399b2;
+	--color-mocha-overlay1: #7f849c;
+	--color-mocha-overlay0: #6c7086;
+	--color-mocha-surface2: #585b70;
+	--color-mocha-surface1: #45475a;
+	--color-mocha-surface0: #313244;
+	--color-mocha-base: #1e1e2e;
+	--color-mocha-mantle: #181825;
+	--color-mocha-crust: #11111b;
+}
+
+@font-face {
+	font-family: 'Rubik';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/rubik.woff2') format('woff2');
+}
+
+@layer base {
+	html {
+		font-family:
+			var(--font-display),
+			system-ui,
+			-apple-system,
+			sans-serif;
+	}
+
+	/* Markdown content styles */
+	.markdown-content {
+		/* Code blocks */
+		pre {
+			overflow-x: auto;
+			border-radius: 0.5rem;
+			margin: 1.5rem 0;
+			padding: 1rem;
+		}
+
+		/* Inline code */
+		:not(pre) > code {
+			background-color: var(--color-mocha-surface0);
+			color: var(--color-mocha-text);
+			padding: 0.125rem 0.375rem;
+			border-radius: 0.25rem;
+			font-size: 0.875em;
+		}
+
+		/* Headings */
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			color: var(--color-mocha-text);
+			font-weight: 700;
+			margin-top: 2rem;
+			margin-bottom: 1rem;
+			line-height: 1.25;
+		}
+
+		h1 {
+			font-size: 2.25rem;
+		}
+		h2 {
+			font-size: 1.875rem;
+		}
+		h3 {
+			font-size: 1.5rem;
+		}
+		h4 {
+			font-size: 1.25rem;
+		}
+
+		/* Paragraphs */
+		p {
+			color: var(--color-mocha-subtext1);
+			margin-bottom: 1rem;
+			line-height: 1.75;
+		}
+
+		/* Lists */
+		ul,
+		ol {
+			color: var(--color-mocha-subtext1);
+			margin-bottom: 1rem;
+			padding-left: 1.5rem;
+		}
+
+		ul {
+			list-style-type: disc;
+		}
+
+		ol {
+			list-style-type: decimal;
+		}
+
+		li {
+			margin-bottom: 0.5rem;
+		}
+
+		/* Links */
+		a {
+			color: var(--color-mocha-blue);
+			text-decoration: underline;
+			transition: color 0.2s;
+		}
+
+		a:hover {
+			color: var(--color-mocha-sapphire);
+		}
+
+		/* Blockquotes */
+		blockquote {
+			border-left: 4px solid var(--color-mocha-blue);
+			padding-left: 1rem;
+			margin: 1.5rem 0;
+			color: var(--color-mocha-subtext0);
+			font-style: italic;
+		}
+
+		/* Horizontal rule */
+		hr {
+			border: none;
+			border-top: 1px solid var(--color-mocha-surface1);
+			margin: 2rem 0;
+		}
+
+		/* Tables */
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 1.5rem 0;
+		}
+
+		th,
+		td {
+			border: 1px solid var(--color-mocha-surface1);
+			padding: 0.75rem;
+			text-align: left;
+		}
+
+		th {
+			background-color: var(--color-mocha-surface0);
+			color: var(--color-mocha-text);
+			font-weight: 600;
+		}
+
+		td {
+			color: var(--color-mocha-subtext1);
+		}
+
+		/* Images */
+		img {
+			max-width: 100%;
+			height: auto;
+			border-radius: 0.5rem;
+			margin: 1.5rem 0;
+		}
+
+		/* GitHub Alerts */
+		.markdown-alert {
+			border-left: 0.25em solid var(--color-mocha-surface2);
+			color: var(--color-mocha-text);
+			margin-bottom: 1rem;
+			padding: 0.5rem 1rem;
+			border-radius: 0.375rem;
+			background-color: var(--color-mocha-surface0);
+		}
+
+		.markdown-alert > :last-child {
+			margin-bottom: 0 !important;
+		}
+
+		.markdown-alert .markdown-alert-title {
+			align-items: center;
+			display: flex;
+			font-size: 0.875rem;
+			font-weight: 600;
+			line-height: 1;
+			margin-bottom: 0.5rem;
+		}
+
+		.markdown-alert .markdown-alert-title svg.octicon {
+			margin-right: 0.5rem !important;
+			fill: currentColor;
+			display: inline-block;
+			vertical-align: text-bottom;
+		}
+
+		.markdown-alert.markdown-alert-note {
+			border-left-color: var(--color-mocha-blue);
+		}
+
+		.markdown-alert.markdown-alert-note .markdown-alert-title {
+			color: var(--color-mocha-blue);
+		}
+
+		.markdown-alert.markdown-alert-tip {
+			border-left-color: var(--color-mocha-green);
+		}
+
+		.markdown-alert.markdown-alert-tip .markdown-alert-title {
+			color: var(--color-mocha-green);
+		}
+
+		.markdown-alert.markdown-alert-important {
+			border-left-color: var(--color-mocha-mauve);
+		}
+
+		.markdown-alert.markdown-alert-important .markdown-alert-title {
+			color: var(--color-mocha-mauve);
+		}
+
+		.markdown-alert.markdown-alert-warning {
+			border-left-color: var(--color-mocha-yellow);
+		}
+
+		.markdown-alert.markdown-alert-warning .markdown-alert-title {
+			color: var(--color-mocha-yellow);
+		}
+
+		.markdown-alert.markdown-alert-caution {
+			border-left-color: var(--color-mocha-red);
+		}
+
+		.markdown-alert.markdown-alert-caution .markdown-alert-title {
+			color: var(--color-mocha-red);
+		}
+	}
+}
+
+/* ---------- MapLibre Catppuccin overrides (moved from Map.svelte :global) ---------- */
+.maplibregl-popup-content {
+	background-color: #313244;
+	color: #cdd6f4;
+	border: 1px solid #45475a;
+	border-top-right-radius: 0.5rem;
+	border-top-left-radius: 0.5rem;
+	padding: 1rem;
+	box-shadow:
+		0 10px 15px -3px rgb(0 0 0 / 0.1),
+		0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.maplibregl-popup-close-button {
+	color: #b4befe;
+	font-size: 1.25rem;
+	width: 24px;
+	height: 24px;
+	transition: color 200ms;
+}
+
+.maplibregl-popup-close-button:hover {
+	color: #cba6f7;
+}
+
+.maplibregl-ctrl-group {
+	background-color: #313244;
+	border: 1px solid #45475a;
+	box-shadow:
+		0 10px 15px -3px rgb(0 0 0 / 0.1),
+		0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.maplibregl-ctrl-group button {
+	color: #cdd6f4;
+	transition: background-color 200ms;
+}
+
+.maplibregl-ctrl-group button:hover:not(:disabled) {
+	background-color: #45475a;
+}
+
+.maplibregl-ctrl-icon {
+	background-color: transparent;
+}
+
+.maplibregl-ctrl button.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='29' height='29' viewBox='0 0 29 29'%3E%3Cpath fill='%23cdd6f4' d='M14.5 8.5v12m-6-6h12'/%3E%3C/svg%3E");
+}
+
+.maplibregl-ctrl button.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='29' height='29' viewBox='0 0 29 29'%3E%3Cpath fill='%23cdd6f4' d='M8.5 14.5h12'/%3E%3C/svg%3E");
+}
+
+.maplibregl-ctrl button.maplibregl-ctrl-compass .maplibregl-ctrl-icon {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='29' height='29' viewBox='0 0 29 29'%3E%3Cpath fill='%23cdd6f4' d='m 10.5 14 4 8 4 -8 -8 0 z'/%3E%3Cpath fill='%239399b2' d='m 10.5 16 4 -8 4 8 -8 0 z'/%3E%3C/svg%3E");
+}
+
+/* Compact attribution: collapsed ⓘ button, catppuccin-styled.
+   .maplibregl-ctrl prefix keeps specificity above maplibre's own stylesheet,
+   which is bundled with the Map island and loads after this file. */
+.maplibregl-ctrl.maplibregl-ctrl-attrib.maplibregl-compact {
+	background-color: #313244;
+	border: 1px solid #45475a;
+	border-top-color: #585b70;
+	border-radius: 9999px;
+	box-shadow:
+		0 10px 15px -3px rgb(0 0 0 / 0.1),
+		0 4px 6px -4px rgb(0 0 0 / 0.1);
+	color: #a6adc8;
+	min-height: 24px;
+}
+
+.maplibregl-ctrl.maplibregl-ctrl-attrib.maplibregl-compact-show {
+	border-radius: 12px;
+}
+
+.maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-button {
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23cdd6f4' fill-rule='evenodd' d='M4 10a6 6 0 1 0 12 0 6 6 0 1 0-12 0m5-3a1 1 0 1 0 2 0 1 1 0 1 0-2 0m0 3a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0'/%3E%3C/svg%3E");
+	border-radius: 9999px;
+	transition: background-color 200ms;
+}
+
+.maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-button:hover {
+	background-color: #45475a;
+}
+
+.maplibregl-ctrl.maplibregl-ctrl-attrib.maplibregl-compact-show .maplibregl-ctrl-attrib-button {
+	background-color: #313244;
+}
+
+.maplibregl-ctrl-attrib a {
+	color: #b4befe;
+	transition: color 200ms;
+}
+
+.maplibregl-ctrl-attrib a:hover {
+	color: #cba6f7;
+}
+
+/* ---------- Directional view transitions ---------- */
+::view-transition-old(page) {
+	animation: vt-fade-out 150ms ease-out both;
+}
+
+html[data-nav='right']::view-transition-new(page) {
+	animation: vt-in-right 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+html[data-nav='left']::view-transition-new(page) {
+	animation: vt-in-left 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+html[data-nav='bottom']::view-transition-new(page) {
+	animation: vt-in-bottom 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes vt-fade-out {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes vt-in-right {
+	from {
+		opacity: 0;
+		transform: translateX(20px);
+	}
+}
+
+@keyframes vt-in-left {
+	from {
+		opacity: 0;
+		transform: translateX(-20px);
+	}
+}
+
+@keyframes vt-in-bottom {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+}
+
+/* ---------- Stagger fade-in (replaces Svelte staggerFadeIn) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+	.stagger {
+		opacity: 0;
+		animation: fade-up 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+		animation-delay: var(--d, 0ms);
+	}
+
+	@keyframes fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(page),
+	::view-transition-new(page) {
+		animation: none;
+	}
+}

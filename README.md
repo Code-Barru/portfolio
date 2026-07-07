@@ -1,38 +1,32 @@
-# sv
+# Portfolio
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
+Personal portfolio — [antoineousselin.fr](https://antoineousselin.fr). Built with [Astro 5](https://astro.build), Svelte 5 islands, Tailwind CSS v4 (Catppuccin Mocha).
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
 ```sh
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
+
+The contact form proxies `/api` to `http://localhost:8000` in dev (see `services/contact-proxy`).
 
 ## Building
 
-To create a production version of your app:
-
 ```sh
-npm run build
+npm run build      # static output in dist/
+npm run preview    # serve the production build locally
+npm run check      # astro check (types)
 ```
 
-You can preview the production build with `npm run preview`.
+## Deploying
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```sh
+docker compose up -d --build
+```
+
+Builds the static site into an nginx image (`Dockerfile`), plus the FastAPI contact proxy and ntfy. Requires `PUBLIC_MAPTILER_API_KEY` in `.env`.
+
+## Content
+
+Markdown in `src/content/posts` and `src/content/projects`, named `{slug}.{locale}.md` (`en`/`fr`). English pages live at `/`, French at `/fr/`.

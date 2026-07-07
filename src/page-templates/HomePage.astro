@@ -1,0 +1,253 @@
+---
+import { FileText, Mail } from '@lucide/astro';
+import {
+	SiDebian,
+	SiDocker,
+	SiGithub,
+	SiPostgresql,
+	SiRust,
+	SiSvelte,
+	SiTypescript
+} from '@icons-pack/svelte-simple-icons';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import JsonLd from '../components/JsonLd.astro';
+import Tooltip from '../components/Tooltip.astro';
+import ProjectCard from '../components/ProjectCard.svelte';
+import PostCard from '../components/PostCard.svelte';
+import Map from '../components/islands/Map.svelte';
+import Education from '../components/islands/Education.svelte';
+import { getPosts, getProjects, toPostMeta, toProjectMeta } from '../lib/collections';
+import { localizePath, useT, type Locale } from '../i18n';
+import type { MapMarker } from '../lib/types';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useT(locale);
+
+const location: [number, number] = [3.0573, 50.632];
+
+const marker: MapMarker = {
+	position: location,
+	color: '#89b4fa',
+	popup: {
+		title: 'Lille'
+	}
+};
+
+function calculateAge(birthDate: string) {
+	const birth = new Date(birthDate);
+	const today = new Date();
+	let age = today.getFullYear() - birth.getFullYear();
+	const monthDifference = today.getMonth() - birth.getMonth();
+	const dayDifference = today.getDate() - birth.getDate();
+
+	if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+		age--;
+	}
+
+	return age;
+}
+
+// Computed at build time; the site rebuilds often enough for this to stay correct.
+const age = calculateAge('2002-10-07');
+
+const techStackItems = [
+	{ icon: SiRust, color: 'hover:text-mocha-peach', link: 'https://rust-lang.org', title: 'Rust' },
+	{
+		icon: SiTypescript,
+		color: 'hover:text-mocha-blue',
+		link: 'https://www.typescriptlang.org/',
+		title: 'Typescript'
+	},
+	{
+		icon: SiSvelte,
+		color: 'hover:text-mocha-peach',
+		link: 'https://svelte.dev/',
+		title: 'SvelteKit'
+	},
+	{ icon: SiDocker, color: 'hover:text-mocha-blue', link: 'https://docker.com', title: 'Docker' },
+	{
+		icon: SiDebian,
+		color: 'hover:text-mocha-red',
+		link: 'https://www.debian.org',
+		title: 'Debian'
+	},
+	{
+		icon: SiPostgresql,
+		color: 'hover:text-mocha-blue',
+		link: 'https://www.postgresql.org/',
+		title: 'Postgresql'
+	}
+];
+
+const projects = await getProjects(locale);
+const displayProjects = [...projects]
+	.sort((a, b) => {
+		if (a.featured && !b.featured) return -1;
+		if (!a.featured && b.featured) return 1;
+		return b.date.getTime() - a.date.getTime();
+	})
+	.slice(0, 2)
+	.map(toProjectMeta);
+
+const displayPosts = (await getPosts(locale)).slice(0, 2).map(toPostMeta);
+
+const site = Astro.site!.href.replace(/\/$/, '');
+
+const personJsonLd = {
+	'@type': 'Person',
+	name: 'Antoine Ousselin',
+	url: site,
+	jobTitle: 'Backend & Offensive Software Developer',
+	address: { '@type': 'PostalAddress', addressLocality: 'Lille', addressCountry: 'FR' },
+	sameAs: ['https://github.com/Code-Barru'],
+	knowsAbout: ['Rust', 'TypeScript', 'Backend Development', 'Offensive Security']
+};
+---
+
+<BaseLayout {locale} footerStagger>
+	<Fragment slot="head">
+		<SEO title={t('seo_home_title')} description={t('seo_home_description')} path="/" {locale} />
+		<JsonLd schema={personJsonLd} />
+	</Fragment>
+
+	<div class="my-2 md:mt-10 md:mb-3">
+		<div class="stagger relative mx-auto h-40 w-full overflow-hidden md:h-60" style="--d: 0ms">
+			<Map
+				client:visible
+				center={location}
+				zoom={12}
+				{marker}
+				height="h-40 md:h-60"
+				class="w-full object-cover shadow-lg"
+				showControls={false}
+				enableTraveling={true}
+			/>
+			<div
+				class="absolute right-0 bottom-0 left-0 h-8 bg-linear-to-t from-mocha-base via-mocha-base/90 to-transparent"
+			>
+			</div>
+		</div>
+
+		<div class="mt-3 flex flex-col-reverse items-start justify-between md:h-72 md:flex-row">
+			<div class="stagger flex h-full grow flex-col md:max-w-3/5" style="--d: 150ms">
+				<div class="flex flex-col">
+					<div class="text-xl font-bold text-mocha-subtext0">{t('hi_text')}</div>
+					<h1 class="text-4xl font-bold text-mocha-blue">Antoine Ousselin</h1>
+					<div class="mt-2">
+						{t('whoami', { age })}<br />
+						{t('whatido')}
+						<strong class="text-mocha-blue">Rust</strong>.
+					</div>
+					<div class="mt-3 flex flex-row gap-3">
+						{
+							techStackItems.map((item) => (
+								<a
+									href={item.link}
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label={item.title}
+									class={`tech-icon text-mocha-subtext0 transition-all duration-200 ${item.color} hover:scale-110`}
+								>
+									<Tooltip text={item.title}>
+										<item.icon title="" size={25} />
+									</Tooltip>
+								</a>
+							))
+						}
+					</div>
+				</div>
+				<div class="mt-4 flex gap-2">
+					<a
+						href="/resume.pdf"
+						target="_blank"
+						class="flex cursor-pointer items-center gap-2 rounded-md border border-mocha-surface1 border-t-mocha-surface2 bg-mocha-base px-4 py-2 text-lg text-mocha-text shadow-sm shadow-mocha-crust transition-colors duration-200 hover:border-mocha-blue active:bg-mocha-surface0"
+					>
+						{t('resume')}
+						<FileText size={24} />
+					</a>
+					<a
+						href="https://github.com/Code-Barru"
+						target="_blank"
+						aria-label="GitHub — Code-Barru"
+						class="mx-1 flex cursor-pointer items-center py-1 transition-colors duration-200 hover:text-mocha-blue"
+					>
+						<Tooltip text="Code-Barru" position="bottom">
+							<SiGithub title="" size={24} />
+						</Tooltip>
+					</a>
+					<a
+						href={localizePath('/contact', locale)}
+						aria-label={t('nav_contact')}
+						class="mx-1 flex cursor-pointer items-center py-1 transition-colors duration-200 hover:text-mocha-blue"
+					>
+						<Mail size={24} />
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="stagger relative mt-6 md:mt-0" style="--d: 350ms">
+			<Education
+				client:load
+				workLabel={t('education_work')}
+				educationLabel={t('education_education')}
+			/>
+		</div>
+
+		{
+			displayProjects.length > 0 && (
+				<div class="stagger" style="--d: 650ms">
+					<section class="mt-12">
+						<div class="mb-6 flex items-center justify-between">
+							<h2 class="text-3xl font-bold text-mocha-blue">{t('projects_name')}</h2>
+							<a
+								href={localizePath('/projects', locale)}
+								class="flex items-center gap-1 text-sm text-mocha-subtext0 transition-colors duration-200 hover:text-mocha-blue"
+							>
+								{t('view_all')} →
+							</a>
+						</div>
+						<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+							{displayProjects.map((project) => (
+								<ProjectCard
+									{project}
+									{locale}
+									featuredLabel={t('projects_featured')}
+									readMoreLabel={t('projects_read_more')}
+								/>
+							))}
+						</div>
+					</section>
+				</div>
+			)
+		}
+
+		{
+			displayPosts.length > 0 && (
+				<div class="stagger" style="--d: 800ms">
+					<section class="mt-12">
+						<div class="mb-6 flex items-center justify-between">
+							<h2 class="text-3xl font-bold text-mocha-blue">{t('blog_name')}</h2>
+							<a
+								href={localizePath('/posts', locale)}
+								class="flex items-center gap-1 text-sm text-mocha-subtext0 transition-colors duration-200 hover:text-mocha-blue"
+							>
+								{t('view_all')} →
+							</a>
+						</div>
+						<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+							{displayPosts.map((post) => (
+								<PostCard {post} {locale} />
+							))}
+						</div>
+					</section>
+				</div>
+			)
+		}
+	</div>
+</BaseLayout>
